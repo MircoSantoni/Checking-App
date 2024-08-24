@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="comprobante_movimiento")
+@Table(name="comprobantes_movimientos")
 public class ComprobanteMovimiento {
 
     @Id

@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="proveedor_cuenta")
+@Table(name="proveedores_cuentas")
 public class ProveedorCuenta {
     
     @Id
@@ -20,8 +20,8 @@ public class ProveedorCuenta {
     @Column(name="fecha_baja_logica")
     private LocalDate fechaBajaLogica;
 
-    private Cuenta idCuenta; //arregla esto mirco del futuro por favor es un desastre
-    private Proveedor idProveedor; // 13/8
+    // private Cuenta idCuenta; //arregla esto mirco del futuro por favor es un desastre
+    // private Proveedor idProveedor; // 13/8
     
     
     
@@ -45,21 +45,21 @@ public class ProveedorCuenta {
         this.fechaBajaLogica = fechaBajaLogica;
     }
 
-    public Cuenta getIdCuenta() {
-        return idCuenta;
-    }
+    // public Cuenta getIdCuenta() {
+    //     return idCuenta;
+    // }
 
-    public void setIdCuenta(Cuenta idCuenta) {
-        this.idCuenta = idCuenta;
-    }
+    // public void setIdCuenta(Cuenta idCuenta) {
+    //     this.idCuenta = idCuenta;
+    // }
 
-    public Proveedor getIdProveedor() {
-        return idProveedor;
-    }
+    // public Proveedor getIdProveedor() {
+    //     return idProveedor;
+    // }
 
-    public void setIdProveedor(Proveedor idProveedor) {
-        this.idProveedor = idProveedor;
-    }
+    // public void setIdProveedor(Proveedor idProveedor) {
+    //     this.idProveedor = idProveedor;
+    // }
 
 
 

@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="comprobante")
+@Table(name="comprobantes")
 public class Comprobante {
 
     @Id
@@ -42,7 +42,12 @@ public class Comprobante {
     public Comprobante() {
         comprobanteMovimientos= new HashSet<>();
     }
-
+    public Comprobante(Long id, String tipoComprobante, String descripcion, Long nroComprobante) {
+        this.id = id;
+        this.tipoComprobante = tipoComprobante;
+        this.descripcion = descripcion;
+        this.nroComprobante = nroComprobante;
+    }
     public Comprobante(Long id, String tipoComprobante, String descripcion, Long nroComprobante,
             LocalDate fechaAltaComprobante, LocalDate fechaBajaComprobante) {
         this.id = id;
@@ -53,6 +58,7 @@ public class Comprobante {
         this.fechaBajaComprobante = fechaBajaComprobante;
     }
 
+    
 
 
     public Long getId() {

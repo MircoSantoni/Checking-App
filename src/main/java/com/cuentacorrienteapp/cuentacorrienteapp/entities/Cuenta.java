@@ -9,17 +9,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="cuenta")
+@Table(name="cuentas")
 public class Cuenta {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="saldo_cuenta")
-    private Long saldoCuenta;
+    private Long saldo;
 
-
+    private String name;
 
     public Cuenta() {
     }
@@ -32,12 +31,31 @@ public class Cuenta {
         this.id = id;
     }
 
-    public Long getSaldoCuenta() {
-        return saldoCuenta;
+    public Long getSaldo() {
+        return saldo;
     }
 
-    public void setSaldoCuenta(Long saldoCuenta) {
-        this.saldoCuenta = saldoCuenta;
+    public void setSaldo(Long saldo) {
+        this.saldo = saldo;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "{id=" + id + 
+        ", saldo=" + saldo + 
+        ", name=" + name + 
+        "}";
+    }
+
+
+
 
 }

@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table
+@Table(name="movimientos")
 public class Movimiento {
 
     @Id

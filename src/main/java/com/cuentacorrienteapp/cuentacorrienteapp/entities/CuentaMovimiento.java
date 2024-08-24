@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="cuenta_movimiento")
+@Table(name="cuentas_movimientos")
 public class CuentaMovimiento {
 
     @Id
@@ -21,8 +21,8 @@ public class CuentaMovimiento {
     @Column(name="nombre_producto")
     private String nombreProducto;
 
-    private Cuenta idCuenta; // esto esta mal
-    private Movimiento idMovimiento; // esto tambien esta mal
+    //private Cuenta idCuenta; // esto esta mal
+    //private Movimiento idMovimiento; // esto tambien esta mal
 
 
 
@@ -54,20 +54,20 @@ public class CuentaMovimiento {
         this.nombreProducto = nombreProducto;
     }
 
-    public Cuenta getIdCuenta() {
-        return idCuenta;
-    }
+    // public Cuenta getIdCuenta() {
+    //     return idCuenta;
+    // }
 
-    public void setIdCuenta(Cuenta idCuenta) {
-        this.idCuenta = idCuenta;
-    }
+    // public void setIdCuenta(Cuenta idCuenta) {
+    //     this.idCuenta = idCuenta;
+    // }
 
-    public Movimiento getIdMovimiento() {
-        return idMovimiento;
-    }
+    // public Movimiento getIdMovimiento() {
+    //     return idMovimiento;
+    // }
 
-    public void setIdMovimiento(Movimiento idMovimiento) {
-        this.idMovimiento = idMovimiento;
-    }
+    // public void setIdMovimiento(Movimiento idMovimiento) {
+    //     this.idMovimiento = idMovimiento;
+    // }
 
 }
