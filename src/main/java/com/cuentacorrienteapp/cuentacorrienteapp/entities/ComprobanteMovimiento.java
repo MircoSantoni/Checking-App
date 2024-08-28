@@ -22,9 +22,8 @@ public class ComprobanteMovimiento {
     private Comprobante comprobante; 
 
     @ManyToOne
-    @JoinColumn(name="mobimiento_od")
-    private Movimiento movimiento; // revisar esto tambien, es un desastre mirco
-    
+    @JoinColumn(name="movimiento_id")
+    private Movimiento movimiento; 
     
     public ComprobanteMovimiento() {
     }

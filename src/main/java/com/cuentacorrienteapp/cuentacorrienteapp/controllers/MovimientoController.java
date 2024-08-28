@@ -63,7 +63,6 @@ public class MovimientoController {
         if( optionalMovimiento.isPresent()){
             return ResponseEntity.ok(optionalMovimiento.orElseThrow());
         }
-        
         return ResponseEntity.notFound().build();
     }
 

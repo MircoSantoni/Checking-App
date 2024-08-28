@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -38,6 +40,10 @@ public class Movimiento {
 
     @OneToMany( cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "movimiento")
     private Set<ComprobanteMovimiento> comprobanteMovimientos;
+
+    @ManyToOne
+    @JoinColumn(name="movimiento_id")
+    private Cuenta cuenta;
 
     public Movimiento() {
         comprobanteMovimientos= new HashSet<>();
@@ -100,7 +106,8 @@ public class Movimiento {
         ", medioPago=" + medioPago + 
         ", comentarioMovimiento=" + comentarioMovimiento + 
         ", fechaAltaMovimiento=" + fechaAltaMovimiento+ 
-        ", fechaBajaMovimiento=" + fechaBajaMovimiento + "}";
+        ", fechaBajaMovimiento=" + fechaBajaMovimiento + 
+        "}";
     }
 
 

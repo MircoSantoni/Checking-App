@@ -1,10 +1,15 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,7 +24,11 @@ public class Cuenta {
 
     private String name;
 
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")
+    private Set<Movimiento> movimiento;
+
     public Cuenta() {
+        movimiento = new HashSet<>();
     }
 
     public Long getId() {
