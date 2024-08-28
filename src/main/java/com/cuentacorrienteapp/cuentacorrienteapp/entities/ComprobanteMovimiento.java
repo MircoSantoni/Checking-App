@@ -20,7 +20,10 @@ public class ComprobanteMovimiento {
     @ManyToOne
     @JoinColumn(name="comprobante_id")
     private Comprobante comprobante; 
-    //private Movimiento movimiento; // revisar esto tambien, es un desastre mirco
+
+    @ManyToOne
+    @JoinColumn(name="mobimiento_od")
+    private Movimiento movimiento; // revisar esto tambien, es un desastre mirco
     
     
     public ComprobanteMovimiento() {
@@ -38,6 +41,14 @@ public class ComprobanteMovimiento {
 
     public void setComprobante(Comprobante comprobante) {
         this.comprobante = comprobante;
+    }
+
+    public Movimiento getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(Movimiento movimiento) {
+        this.movimiento = movimiento;
     }
 
     
