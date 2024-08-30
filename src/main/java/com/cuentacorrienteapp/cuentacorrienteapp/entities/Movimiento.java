@@ -14,6 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="movimientos")
@@ -23,12 +27,15 @@ public class Movimiento {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(value=0)
     @Column(name="importe_movimiento")
     private Long importeMovimiento;
 
+    @NotNull
     @Column(name="medio_pago")
     private String medioPago;
 
+    @NotEmpty
     @Column(name="comentario_movimiento")
     private String comentarioMovimiento;
 
@@ -37,8 +44,8 @@ public class Movimiento {
 
     @Column(name="fecha_baja_movimiento")
     private LocalDate fechaBajaMovimiento;
-
-    @OneToMany( cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "movimiento")
+    //, orphanRemoval = true
+    @OneToMany( cascade = CascadeType.ALL  , mappedBy = "movimiento")
     private Set<ComprobanteMovimiento> comprobanteMovimientos;
 
     @ManyToOne

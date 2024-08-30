@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="comprobantes")
@@ -21,11 +23,14 @@ public class Comprobante {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(name="tipo_comprobante")
     private String tipoComprobante;
 
+    @NotNull
     private String descripcion;
     
+    @Min(value=0)
     @Column(name="nro_comprobante")
     private Long nroComprobante;    
 
@@ -34,8 +39,8 @@ public class Comprobante {
 
     @Column(name="fecha_baja_comprobante")
     private LocalDate fechaBajaComprobante;
-    
-    @OneToMany( cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "comprobante")
+    //orphanRemoval = true ,
+    @OneToMany( cascade = CascadeType.ALL ,  mappedBy = "comprobante")
     private Set<ComprobanteMovimiento> comprobanteMovimientos;
 
     
@@ -51,13 +56,14 @@ public class Comprobante {
     }
     
     public Comprobante(Long id, String tipoComprobante, String descripcion, Long nroComprobante,
-            LocalDate fechaAltaComprobante, LocalDate fechaBajaComprobante) {
+            LocalDate fechaAltaComprobante, LocalDate fechaBajaComprobante, ComprobanteMovimiento comprobanteMovimiento) {
         this.id = id;
         this.tipoComprobante = tipoComprobante;
         this.descripcion = descripcion;
         this.nroComprobante = nroComprobante;
         this.fechaAltaComprobante = fechaAltaComprobante;
         this.fechaBajaComprobante = fechaBajaComprobante;
+        this.comprobanteMovimientos = comprobanteMovimientos;
     }
 
     
@@ -110,7 +116,15 @@ public class Comprobante {
     public void setFechaBajaComprobante(LocalDate fechaBajaComprobante) {
         this.fechaBajaComprobante = fechaBajaComprobante;
     }
+    
+    public Set<ComprobanteMovimiento> getComprobanteMovimientos() {
+        return comprobanteMovimientos;
+    }
 
+    public void setComprobanteMovimientos(Set<ComprobanteMovimiento> comprobanteMovimientos) {
+        this.comprobanteMovimientos = comprobanteMovimientos;
+    }
+    
 
 
     @Override
@@ -121,8 +135,10 @@ public class Comprobante {
           ", nroComprobante=" + nroComprobante + 
           ", fechaAltaComprobante=" + fechaAltaComprobante + 
           ", fechaBajaComprobante=" + fechaBajaComprobante + 
+          " comprobante Movimiento=" + comprobanteMovimientos +
           "}";
     }
+
 
     
 
