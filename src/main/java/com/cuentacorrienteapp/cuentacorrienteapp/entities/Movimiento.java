@@ -4,18 +4,16 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -44,16 +42,15 @@ public class Movimiento {
 
     @Column(name="fecha_baja_movimiento")
     private LocalDate fechaBajaMovimiento;
-    //, orphanRemoval = true
-    @OneToMany( cascade = CascadeType.ALL  , mappedBy = "movimiento")
-    private Set<ComprobanteMovimiento> comprobanteMovimientos;
+
+    @ManyToMany(  mappedBy = "movimientos")
+    private Set<Comprobante> comprobantes = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name="movimiento_id")
+    @JoinColumn(name="cuenta_id")
     private Cuenta cuenta;
 
     public Movimiento() {
-        comprobanteMovimientos= new HashSet<>();
     }
 
 
@@ -106,6 +103,14 @@ public class Movimiento {
         this.fechaBajaMovimiento = fechaBajaMovimiento;
     }
 
+    public Set<Comprobante> getComprobantes() {
+        return comprobantes;
+    }
+    public void setComprobantes(Set<Comprobante> comprobantes) {
+        this.comprobantes = comprobantes;
+    }
+
+
     @Override
     public String toString() {
         return "{ id=" + id + 
@@ -115,6 +120,77 @@ public class Movimiento {
         ", fechaAltaMovimiento=" + fechaAltaMovimiento+ 
         ", fechaBajaMovimiento=" + fechaBajaMovimiento + 
         "}";
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((importeMovimiento == null) ? 0 : importeMovimiento.hashCode());
+        result = prime * result + ((medioPago == null) ? 0 : medioPago.hashCode());
+        result = prime * result + ((comentarioMovimiento == null) ? 0 : comentarioMovimiento.hashCode());
+        result = prime * result + ((fechaAltaMovimiento == null) ? 0 : fechaAltaMovimiento.hashCode());
+        result = prime * result + ((fechaBajaMovimiento == null) ? 0 : fechaBajaMovimiento.hashCode());
+        result = prime * result + ((comprobantes == null) ? 0 : comprobantes.hashCode());
+        result = prime * result + ((cuenta == null) ? 0 : cuenta.hashCode());
+        return result;
+    }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Movimiento other = (Movimiento) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (importeMovimiento == null) {
+            if (other.importeMovimiento != null)
+                return false;
+        } else if (!importeMovimiento.equals(other.importeMovimiento))
+            return false;
+        if (medioPago == null) {
+            if (other.medioPago != null)
+                return false;
+        } else if (!medioPago.equals(other.medioPago))
+            return false;
+        if (comentarioMovimiento == null) {
+            if (other.comentarioMovimiento != null)
+                return false;
+        } else if (!comentarioMovimiento.equals(other.comentarioMovimiento))
+            return false;
+        if (fechaAltaMovimiento == null) {
+            if (other.fechaAltaMovimiento != null)
+                return false;
+        } else if (!fechaAltaMovimiento.equals(other.fechaAltaMovimiento))
+            return false;
+        if (fechaBajaMovimiento == null) {
+            if (other.fechaBajaMovimiento != null)
+                return false;
+        } else if (!fechaBajaMovimiento.equals(other.fechaBajaMovimiento))
+            return false;
+        if (comprobantes == null) {
+            if (other.comprobantes != null)
+                return false;
+        } else if (!comprobantes.equals(other.comprobantes))
+            return false;
+        if (cuenta == null) {
+            if (other.cuenta != null)
+                return false;
+        } else if (!cuenta.equals(other.cuenta))
+            return false;
+        return true;
     }
 
 

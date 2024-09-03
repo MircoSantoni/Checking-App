@@ -43,7 +43,7 @@ public class ComprobantServiceImpl implements ComprobanteService{
             compr.setTipoComprobante(comprobante.getTipoComprobante());
             compr.setDescripcion(comprobante.getDescripcion());
             compr.setNroComprobante(comprobante.getNroComprobante());
-            compr.setComprobanteMovimientos(comprobante.getComprobanteMovimientos());
+            //compr.setComprobanteMovimientos(comprobante.getComprobanteMovimientos());
             
             return Optional.of(repository.save(compr));
         }
