@@ -10,9 +10,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@RequiredArgsConstructor
+@ToString
 @Entity
 @Table(name="comprobantes")
 public class Comprobante {
@@ -21,11 +35,14 @@ public class Comprobante {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(name="tipo_comprobante")
     private String tipoComprobante;
 
+    @NotNull
     private String descripcion;
     
+    @Min(value=0)
     @Column(name="nro_comprobante")
     private Long nroComprobante;    
 
@@ -34,95 +51,13 @@ public class Comprobante {
 
     @Column(name="fecha_baja_comprobante")
     private LocalDate fechaBajaComprobante;
-    
-    @OneToMany( cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "comprobante")
-    private Set<ComprobanteMovimiento> comprobanteMovimientos;
 
-    
-    public Comprobante() {
-        comprobanteMovimientos= new HashSet<>();
-    }
-
-    public Comprobante(Long id, String tipoComprobante, String descripcion, Long nroComprobante) {
-        this.id = id;
-        this.tipoComprobante = tipoComprobante;
-        this.descripcion = descripcion;
-        this.nroComprobante = nroComprobante;
-    }
-    
-    public Comprobante(Long id, String tipoComprobante, String descripcion, Long nroComprobante,
-            LocalDate fechaAltaComprobante, LocalDate fechaBajaComprobante) {
-        this.id = id;
-        this.tipoComprobante = tipoComprobante;
-        this.descripcion = descripcion;
-        this.nroComprobante = nroComprobante;
-        this.fechaAltaComprobante = fechaAltaComprobante;
-        this.fechaBajaComprobante = fechaBajaComprobante;
-    }
-
-    
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTipoComprobante() {
-        return tipoComprobante;
-    }
-
-    public void setTipoComprobante(String tipoComprobante) {
-        this.tipoComprobante = tipoComprobante;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Long getNroComprobante() {
-        return nroComprobante;
-    }
-
-    public void setNroComprobante(Long nroComprobante) {
-        this.nroComprobante = nroComprobante;
-    }
-
-    public LocalDate getFechaAltaComprobante() {
-        return fechaAltaComprobante;
-    }
-
-    public void setFechaAltaComprobante(LocalDate fechaAltaComprobante) {
-        this.fechaAltaComprobante = fechaAltaComprobante;
-    }
-
-    public LocalDate getFechaBajaComprobante() {
-        return fechaBajaComprobante;
-    }
-
-    public void setFechaBajaComprobante(LocalDate fechaBajaComprobante) {
-        this.fechaBajaComprobante = fechaBajaComprobante;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "{id=" + id +
-         ", tipoComprobante=" + tipoComprobante +
-          ", descripcion=" + descripcion + 
-          ", nroComprobante=" + nroComprobante + 
-          ", fechaAltaComprobante=" + fechaAltaComprobante + 
-          ", fechaBajaComprobante=" + fechaBajaComprobante + 
-          "}";
-    }
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable( name = "comprobante_movimiento",
+        joinColumns = { @JoinColumn(name = "comprobante_id")},
+        inverseJoinColumns = { @JoinColumn(name = "movimiento_id")}
+    )
+    private Set<Movimiento> movimientos = new HashSet<>();    
 
     
 

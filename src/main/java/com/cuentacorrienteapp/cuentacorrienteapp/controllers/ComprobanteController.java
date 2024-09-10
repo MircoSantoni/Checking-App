@@ -58,7 +58,7 @@ public class ComprobanteController {
         }
         return ResponseEntity.notFound().build();
     }
-
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Comprobante> optionalComprobante = service.findById(id);
