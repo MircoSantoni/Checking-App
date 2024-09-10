@@ -1,7 +1,5 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
-
-import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -22,6 +20,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @RequiredArgsConstructor
+
 @Entity
 @Table(name="cuentas")
 public class Cuenta {

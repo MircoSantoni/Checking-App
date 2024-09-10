@@ -20,11 +20,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @RequiredArgsConstructor
+@ToString
 @Entity
 @Table(name="comprobantes")
 public class Comprobante {
@@ -56,17 +58,6 @@ public class Comprobante {
         inverseJoinColumns = { @JoinColumn(name = "movimiento_id")}
     )
     private Set<Movimiento> movimientos = new HashSet<>();    
-
-    @Override
-    public String toString() {
-        return "{id=" + id +
-         ", tipoComprobante=" + tipoComprobante +
-          ", descripcion=" + descripcion + 
-          ", nroComprobante=" + nroComprobante + 
-          ", fechaAltaComprobante=" + fechaAltaComprobante + 
-          ", fechaBajaComprobante=" + fechaBajaComprobante + 
-          "}";
-    }
 
     
 
