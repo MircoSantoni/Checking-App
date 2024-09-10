@@ -9,7 +9,15 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@RequiredArgsConstructor
 @Entity
 @Table(name="proveedores")
 public class Proveedor {
@@ -35,51 +43,6 @@ public class Proveedor {
     private String direccionProveedor;
 
 
-
-    public Proveedor() {
-    }
-
-
-    public Proveedor(Long id, String nombreProveedor, Long numeroCelular, String emailProveedor,
-            String direccionProveedor) {
-        this.id = id;
-        this.nombreProveedor = nombreProveedor;
-        this.numeroCelular = numeroCelular;
-        this.emailProveedor = emailProveedor;
-        this.direccionProveedor = direccionProveedor;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getNombreProveedor() {
-        return nombreProveedor;
-    }
-    public void setNombreProveedor(String nombreProveedor) {
-        this.nombreProveedor = nombreProveedor;
-    }
-    public Long getNumeroCelular() {
-        return numeroCelular;
-    }
-    public void setNumeroCelular(Long numeroCelular) {
-        this.numeroCelular = numeroCelular;
-    }
-    public String getEmailProveedor() {
-        return emailProveedor;
-    }
-    public void setEmailProveedor(String emailProveedor) {
-        this.emailProveedor = emailProveedor;
-    }
-    public String getDireccionProveedor() {
-        return direccionProveedor;
-    }
-    public void setDireccionProveedor(String direccionProveedor) {
-        this.direccionProveedor = direccionProveedor;
-    }
 
 
     @Override

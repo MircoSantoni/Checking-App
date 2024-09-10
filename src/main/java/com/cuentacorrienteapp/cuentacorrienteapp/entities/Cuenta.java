@@ -12,9 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@RequiredArgsConstructor
 @Entity
 @Table(name="cuentas")
 public class Cuenta {
@@ -32,43 +39,6 @@ public class Cuenta {
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")
     private Set<Movimiento> movimiento;
 
-    public Cuenta() {
-        movimiento = new HashSet<>();
-    }
-
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Long saldo) {
-        this.saldo = saldo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "{id=" + id + 
-        ", saldo=" + saldo + 
-        ", name=" + name + 
-        "}";
-    }
-
-
-
+   
 
 }
