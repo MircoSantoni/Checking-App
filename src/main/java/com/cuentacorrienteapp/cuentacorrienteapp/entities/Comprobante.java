@@ -16,17 +16,12 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+
 @RequiredArgsConstructor
-@ToString
+@Data
 @Entity
 @Table(name="comprobantes")
 public class Comprobante {
@@ -59,6 +54,6 @@ public class Comprobante {
     )
     private Set<Movimiento> movimientos = new HashSet<>();    
 
-    
+    private boolean isValid;
 
 }
