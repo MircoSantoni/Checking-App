@@ -9,14 +9,11 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@Data
 @RequiredArgsConstructor
 @Entity
 @Table(name="proveedores")
@@ -42,19 +39,6 @@ public class Proveedor {
     @Column(name="direccion_proveedor")
     private String direccionProveedor;
 
-
-
-
-    @Override
-    public String toString() {
-        return "{id=" + id + 
-        ", nombreProveedor=" + nombreProveedor + 
-        ", numeroCelular=" + numeroCelular + 
-        ", emailProveedor=" + emailProveedor + 
-        ", direccionProveedor=" + direccionProveedor + 
-        "}";
-    }
-
-
+    private boolean isValid;
 
 }

@@ -11,14 +11,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @RequiredArgsConstructor
 
 @Entity
@@ -38,6 +34,6 @@ public class Cuenta {
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")
     private Set<Movimiento> movimiento;
 
-   
+    private boolean isValid;
 
 }

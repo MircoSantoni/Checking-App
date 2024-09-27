@@ -15,7 +15,7 @@ public interface UserService {
 
     Optional<User> update (Long id, User user);
 
-    Optional<USer> delete (Long id);
+    Optional<User> delete (Long id);
 
 
 
