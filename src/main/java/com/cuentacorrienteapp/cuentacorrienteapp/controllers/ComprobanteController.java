@@ -3,7 +3,7 @@ package com.cuentacorrienteapp.cuentacorrienteapp.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-    import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
+import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.ComprobanteService;
 
 import jakarta.validation.Valid;
@@ -26,16 +26,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 @RequestMapping("/api/comprobantes")
 public class ComprobanteController {
 
-    @Autowired
-    private ComprobanteService service;
+    private final ComprobanteService comprobanteService;
 
-    @GetMapping
-    public List<Comprobante> list() {
-        return service.findAll();
-    }
-
+    //Mostrar comprobantes segun id
     @GetMapping("/{id}")
-    public ResponseEntity<?> viewOne(@PathVariable Long id) {
+    public ResponseEntity<ResponseComprobanteDto> viewOne(@Valid @PathVariable String id) {
+
         Optional<Comprobante> optionalComprobante = service.findById(id);
 
         if (optionalComprobante.isPresent()) {
