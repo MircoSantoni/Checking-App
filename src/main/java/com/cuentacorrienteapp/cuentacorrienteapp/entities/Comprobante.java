@@ -32,8 +32,8 @@ import lombok.ToString;
 public class Comprobante {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue ( strategy = GenerationType.UUID)
+    private String id;
 
     @NotNull
     @Column(name="tipo_comprobante")
