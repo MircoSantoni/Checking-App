@@ -35,7 +35,7 @@ public class ComprobanteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> view(@PathVariable Long id) {
+    public ResponseEntity<?> viewOne(@PathVariable Long id) {
         Optional<Comprobante> optionalComprobante = service.findById(id);
 
         if (optionalComprobante.isPresent()) {

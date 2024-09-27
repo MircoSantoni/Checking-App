@@ -15,8 +15,11 @@ public interface UserService {
 
     Optional<User> update (Long id, User user);
 
+<<<<<<< Updated upstream
     Optional<USer> delete (Long id);
 
 
 
+=======
+>>>>>>> Stashed changes
 }

@@ -1,4 +1,4 @@
-package com.cuentacorrienteapp.cuentacorrienteapp.services;
+package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
+import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
 
 @Service
 public class MovimientoServiceImpl implements MovimientoService{
@@ -17,13 +18,13 @@ public class MovimientoServiceImpl implements MovimientoService{
     private MovimientoRepository repository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Movimiento> findAll() {
         return (List<Movimiento>) repository.findAll();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Movimiento> findById(Long id) {
         return repository.findById(id);
     }

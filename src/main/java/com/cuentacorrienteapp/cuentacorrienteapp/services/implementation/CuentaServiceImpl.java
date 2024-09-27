@@ -1,4 +1,4 @@
-package com.cuentacorrienteapp.cuentacorrienteapp.services;
+package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
+import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
 @Service
 public class CuentaServiceImpl implements CuentaService{

@@ -1,4 +1,4 @@
-package com.cuentacorrienteapp.cuentacorrienteapp.services;
+package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.ComprobanteRepository;
+import com.cuentacorrienteapp.cuentacorrienteapp.services.ComprobanteService;
 
 @Service
 public class ComprobantServiceImpl implements ComprobanteService{
