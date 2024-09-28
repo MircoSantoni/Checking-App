@@ -26,8 +26,8 @@ import lombok.Setter;
 public class Cuenta {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue ( strategy = GenerationType.UUID)
+    private String id;
 
     @Min( value= 0)
     private Long saldo;
@@ -38,6 +38,6 @@ public class Cuenta {
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")
     private Set<Movimiento> movimiento;
 
-   
+    private boolean isValid;
 
 }

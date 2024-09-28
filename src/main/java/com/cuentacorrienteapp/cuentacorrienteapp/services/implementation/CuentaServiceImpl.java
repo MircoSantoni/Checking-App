@@ -7,57 +7,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
+import com.cuentacorrienteapp.cuentacorrienteapp.mappers.CuentaMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CuentaServiceImpl implements CuentaService{
 
-    @Autowired
-    private CuentaRepository repository;
+    
+    private final CuentaRepository cuentaRepository;
+    private final CuentaMapper cuentaMapper;
 
     @Override
     @Transactional( readOnly = true)
-    public List<Cuenta> findAll() {
-        return (List<Cuenta>) repository.findAll();
+    public List<ResponseCuentaDto> findAll() {
+        List<Cuenta> cuentaList = cuentaRepository.findAll();
+        return cuentaMapper.listCuentaToListResponseCuentaDto(cuentaList);
     }
 
     @Override
     @Transactional( readOnly = true)
-    public Optional<Cuenta> findById(Long id) {
-        return repository.findById(id);
+    public ResponseCuentaDto findById(String id) {
+        Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
+        return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
     }
 
     @Override
     @Transactional
-    public Cuenta save(Cuenta cuenta) {
-        return repository.save(cuenta);
-    }
-
-    @Override
-    @Transactional
-    public Optional<Cuenta> update(Long id, Cuenta cuenta) {
-        Optional<Cuenta> optionalCuenta = repository.findById(id);
+    public ResponseCuentaDto save(RequestCuentaDto requestCuentaDto) {
+        Optional<Cuenta> optionalCuenta = cuentaRepository.findByName(requestCuentaDto.name());
 
         if (optionalCuenta.isPresent()) {
-            Cuenta cuen = optionalCuenta.orElseThrow();
-            cuen.setName(cuenta.getName());
-            cuen.setSaldo(cuenta.getSaldo());
-
-            return Optional.of(repository.save(cuen));
+            Cuenta cuenta = optionalCuenta.get();
+            return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
+        } else {
+            Cuenta cuenta = cuentaMapper.requestCuentaDtoToCuenta(requestCuentaDto);
+            return cuentaMapper.cuentaToResponseCuentaDto(cuentaRepository.save(cuenta));
         }
-        return optionalCuenta;
     }
 
-    @Override
-    public Optional<Cuenta> delete(Long id) {
-        Optional<Cuenta> optionalCuenta = repository.findById(id);
+    // @Override
+    // @Transactional
+    // public ResponseCuentaDto updateIsValid(RequestCuentaDto requestCuentaDto) {
+    //     Optional<Cuenta> optionalCuenta = cuentaRepository.findById(requestCuentaDto).orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
+        
 
-        optionalCuenta.ifPresent(compr -> {
-            repository.delete(compr);
-        });
-        return optionalCuenta;
-    }
+        
+    //     return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
+    // }
 
 }

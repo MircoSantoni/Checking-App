@@ -64,9 +64,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>annotationProcessor</scope>
 		</dependency>
-<<<<<<< Updated upstream
-	</dependencies>
-=======
 		<dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -79,7 +76,6 @@
             <scope>provided</scope>
         </dependency>
  </dependencies>
->>>>>>> Stashed changes
 
 	<build>
 		<plugins>

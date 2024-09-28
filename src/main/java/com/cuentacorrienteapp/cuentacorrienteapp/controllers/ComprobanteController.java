@@ -3,66 +3,51 @@ package com.cuentacorrienteapp.cuentacorrienteapp.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.ComprobanteService;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.*;
+
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/comprobantes")
 public class ComprobanteController {
 
     private final ComprobanteService comprobanteService;
 
-    //Mostrar comprobantes segun id
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseComprobanteDto> viewOne(@Valid @PathVariable String id) {
-
-        Optional<Comprobante> optionalComprobante = service.findById(id);
-
-        if (optionalComprobante.isPresent()) {
-            return ResponseEntity.ok(optionalComprobante.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+    // mostrar comprobantes segun id
+    @GetMapping("/b-id/{id}")
+    public ResponseEntity<ResponseComprobanteDto> viewId(@Valid @PathVariable String id) {
+        ResponseComprobanteDto result = comprobanteService.findById(id);
+        return ResponseEntity.ok(result);
     }
 
-    @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Comprobante comprobante) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(comprobante));
+    // mostrar comprobante segun numero de comprobante 
+    @GetMapping("b-numero-comprobante/{nroComprobante}")
+    public ResponseEntity<ResponseComprobanteDto> viewNroCompr(@Valid @PathVariable Long nroComprobante) {
+        ResponseComprobanteDto result = comprobanteService.findByNroComprobante(nroComprobante);
+        return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody Comprobante comprobante, @PathVariable Long id) {
-        Optional<Comprobante> optionalComprobante = service.update(id, comprobante);
+    @PostMapping("/guardar-comprobante")
+    public ResponseEntity<ResponseComprobanteDto> saveComprobante(@Valid @RequestBody RequestComprobanteDto requestComprobanteDto) {
+        ResponseComprobanteDto result = comprobanteService.saveComprobante(requestComprobanteDto);
+        return ResponseEntity.ok(result);
+    }
 
-        if (optionalComprobante.isPresent()) {
-            return ResponseEntity.ok(optionalComprobante.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+    @PostMapping("/cambiar-estado/{nroComprobante}")
+    public ResponseEntity<ResponseComprobanteDto> updateState(@Valid @PathVariable Long nroComprobante ) {
+        ResponseComprobanteDto result = comprobanteService.updateIsValid(nroComprobante);
+        return ResponseEntity.ok(result);
     }
     
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        Optional<Comprobante> optionalComprobante = service.findById(id);
-
-        if (optionalComprobante.isPresent()) {
-            service.delete(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
 }

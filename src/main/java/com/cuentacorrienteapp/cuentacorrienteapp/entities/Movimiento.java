@@ -31,8 +31,8 @@ import lombok.Setter;
 public class Movimiento {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue ( strategy = GenerationType.UUID)
+    private String id;
 
     @Min(value=0)
     @Column(name="importe_movimiento")
@@ -60,16 +60,5 @@ public class Movimiento {
     private Cuenta cuenta;
 
 
-
-
-    public Movimiento(Long id, Long importeMovimiento, String medioPago, String comentarioMovimiento,
-            LocalDate fechaAltaMovimiento, LocalDate fechaBajaMovimiento) {
-        this.id = id;
-        this.importeMovimiento = importeMovimiento;
-        this.medioPago = medioPago;
-        this.comentarioMovimiento = comentarioMovimiento;
-        this.fechaAltaMovimiento = fechaAltaMovimiento;
-        this.fechaBajaMovimiento = fechaBajaMovimiento;
-    }
 
 }

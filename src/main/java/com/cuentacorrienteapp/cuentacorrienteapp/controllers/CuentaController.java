@@ -1,7 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.controllers;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,62 +11,47 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
 @RestController
 @RequestMapping("/api/cuentas")
+@RequiredArgsConstructor
 public class CuentaController {
 
-    @Autowired
-    private CuentaService service;
+    private final CuentaService cuentaService;
 
-    @GetMapping
-    public List<Cuenta> list(){
-        return service.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> view(@PathVariable Long id) {
-        Optional<Cuenta> cuentaOptional = service.findById(id);
-
-        if (cuentaOptional.isPresent()) {
-            return ResponseEntity.ok().body(cuentaOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("ver-cuentas")
+    public ResponseEntity<List<ResponseCuentaDto>> viewCuentas() {
+        List<ResponseCuentaDto> result = cuentaService.findAll();
+        return ResponseEntity.ok(result);
     }
     
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Cuenta cuenta) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(cuenta));
-    }
-    
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody Cuenta cuenta, @PathVariable Long id) {
-        Optional<Cuenta> cuentaOptional = service.update(id,cuenta);
-        
-        if (cuentaOptional.isPresent()){
-            return ResponseEntity.ok(cuentaOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("ver-cuenta-id")
+    public ResponseEntity<ResponseCuentaDto> viewId( @PathVariable String id) {
+        ResponseCuentaDto result = cuentaService.findById(id);
+        return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        Optional<Cuenta> cuentaOptional = service.delete(id);
-
-        if (cuentaOptional.isPresent()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @PostMapping("crear-cuenta")
+    public ResponseEntity<ResponseCuentaDto> saveCuenta(@Valid @RequestBody RequestCuentaDto requestCuentaDto){
+        ResponseCuentaDto result = cuentaService.save(requestCuentaDto);
+        return ResponseEntity.ok(result);
     }
+    
+    // @PutMapping("/cambiar-estado")
+    // public ResponseEntity<ResponseCuentaDto> changeState(@RequestBody RequestCuentaDto requestCuentaDto) {
+    //     ResponseCuentaDto result = cuentaService.updateIsValid(requestCuentaDto);
+    //     return ResponseEntity.ok(result);
+    // }
 
-    
-    
+
 }

@@ -23,8 +23,8 @@ import lombok.Setter;
 public class Proveedor {
 
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue ( strategy = GenerationType.UUID)
+    private String id;
 
     @NotBlank
     @Column(name="nombre_proveedor")
