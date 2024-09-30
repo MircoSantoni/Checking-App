@@ -2,17 +2,13 @@ package com.cuentacorrienteapp.cuentacorrienteapp.controllers;
 
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
-import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
 import jakarta.validation.Valid;
@@ -47,11 +43,11 @@ public class CuentaController {
         return ResponseEntity.ok(result);
     }
     
-    // @PutMapping("/cambiar-estado")
-    // public ResponseEntity<ResponseCuentaDto> changeState(@RequestBody RequestCuentaDto requestCuentaDto) {
-    //     ResponseCuentaDto result = cuentaService.updateIsValid(requestCuentaDto);
-    //     return ResponseEntity.ok(result);
-    // }
+    @PutMapping("/cambiar-estado/{idCuenta}")
+    public ResponseEntity<ResponseCuentaDto> changeState( @PathVariable String idCuenta) {
+        ResponseCuentaDto result = cuentaService.updateIsValid(idCuenta);
+        return ResponseEntity.ok(result);
+    }
 
 
 }

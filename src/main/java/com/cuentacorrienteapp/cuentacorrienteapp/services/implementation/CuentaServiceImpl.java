@@ -3,7 +3,6 @@ package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,14 +51,15 @@ public class CuentaServiceImpl implements CuentaService{
         }
     }
 
-    // @Override
-    // @Transactional
-    // public ResponseCuentaDto updateIsValid(RequestCuentaDto requestCuentaDto) {
-    //     Optional<Cuenta> optionalCuenta = cuentaRepository.findById(requestCuentaDto).orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
-        
+    @Override
+    @Transactional
+    public ResponseCuentaDto updateIsValid(String id) {
+        Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
 
-        
-    //     return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
-    // }
+        cuenta.setValid(!cuenta.isValid());
+        cuentaRepository.save(cuenta);
+
+        return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
+    }
 
 }
