@@ -39,7 +39,7 @@ public class Comprobante {
     
     @Min(value=0)
     @Column(name="nro_comprobante")
-    private Long nroComprobante;    
+    private Long nroComprobante;
 
     @Column(name="fecha_alta_comprobante")
     private LocalDate fechaAltaComprobante;

@@ -1,22 +1,18 @@
-package com.cuentacorrienteapp.cuentacorrienteapp.services;
+// package com.cuentacorrienteapp.cuentacorrienteapp.services;
 
-import java.util.List;
-import java.util.Optional;
+// import java.util.List;
+// import java.util.Optional;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.entities.User;
+// import com.cuentacorrienteapp.cuentacorrienteapp.entities.User;
 
-public interface UserService {
+// public interface UserService {
 
-    List<User> findAll();
+//     List<User> findAll();
 
-    Optional<User> findById(Long id);
+//     Optional<User> findById(Long id);
 
-    User save (User user);
+//     User save (User user);
 
-    Optional<User> update (Long id, User user);
+//     Optional<User> update (Long id, User user);
 
-    Optional<User> delete (Long id);
-
-
-
-}
+// }
