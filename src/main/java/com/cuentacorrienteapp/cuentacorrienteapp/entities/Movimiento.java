@@ -16,15 +16,11 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @RequiredArgsConstructor
 @Entity
 @Table(name="movimientos")
@@ -58,7 +54,6 @@ public class Movimiento {
     @ManyToOne
     @JoinColumn(name="cuenta_id")
     private Cuenta cuenta;
-
 
 
 }
