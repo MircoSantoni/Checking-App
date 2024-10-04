@@ -1,19 +1,14 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 
 public interface CuentaService {
 
-    List<Cuenta> findAll();
+    List<ResponseCuentaDto> findAll();
+    ResponseCuentaDto findById(String id);
+    ResponseCuentaDto save(RequestCuentaDto requestCuentaDto);
+    ResponseCuentaDto updateIsValid(String id);
 
-    Optional<Cuenta> findById(Long id);
-
-    Cuenta save(Cuenta cuenta);
-
-    Optional<Cuenta> update( Long id ,Cuenta cuenta);
-
-    Optional<Cuenta> delete(Long id);
 }

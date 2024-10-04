@@ -23,19 +23,15 @@ public class Proveedor {
     @GeneratedValue ( strategy = GenerationType.UUID)
     private String id;
 
-    @NotBlank
     @Column(name="nombre_proveedor")
     private String nombreProveedor;
 
-    @NotNull
     @Column(name="numero_celular")
     private String numeroCelular;
 
-    @Email
     @Column(name="email_proveedor")
     private String emailProveedor;
 
-    @NotBlank
     @Column(name="direccion_proveedor")
     private String direccionProveedor;
 

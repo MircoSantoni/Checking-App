@@ -20,14 +20,10 @@ public class User {
     @GeneratedValue ( strategy = GenerationType.UUID)
     private String id;
 
-    @NotBlank
     private String password;
 
-    @NotBlank
     private String name;
 
-
-    @Email
     private String email;
 
     private Boolean isValid;
