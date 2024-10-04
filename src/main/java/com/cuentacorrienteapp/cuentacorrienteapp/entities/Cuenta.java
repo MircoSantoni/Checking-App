@@ -25,10 +25,8 @@ public class Cuenta {
     @GeneratedValue ( strategy = GenerationType.UUID)
     private String id;
 
-    @Min( value= 0)
     private Long saldo;
 
-    @NotNull
     private String name;
 
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")

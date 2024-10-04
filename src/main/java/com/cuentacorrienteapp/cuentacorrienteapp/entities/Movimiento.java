@@ -30,11 +30,9 @@ public class Movimiento {
     @GeneratedValue ( strategy = GenerationType.UUID)
     private String id;
 
-    @Min(value=0)
     @Column(name="importe_movimiento")
     private Long importeMovimiento;
 
-    @NotNull
     @Column(name="medio_pago")
     private String medioPago;
 
