@@ -30,14 +30,11 @@ public class Comprobante {
     @GeneratedValue ( strategy = GenerationType.UUID)
     private String id;
 
-    @NotNull
     @Column(name="tipo_comprobante")
     private String tipoComprobante;
 
-    @NotNull
     private String descripcion;
     
-    @Min(value=0)
     @Column(name="nro_comprobante")
     private Long nroComprobante;
 
