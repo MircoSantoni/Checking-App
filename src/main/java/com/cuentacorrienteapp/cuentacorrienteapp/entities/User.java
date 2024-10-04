@@ -7,8 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.UUID)
+    @GeneratedValue ( strategy = GenerationType.UUID)
     private String id;
 
     private String password;
@@ -28,7 +26,7 @@ public class User {
 
     private String email;
 
-    private boolean isValid;
+    private Boolean isValid;
 
-    
+
 }
