@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AplicationConfiguration {
 
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
     UserDetailsService userDetailsService() {
@@ -24,7 +24,7 @@ public class AplicationConfiguration {
 
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder;
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
