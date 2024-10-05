@@ -1,6 +1,8 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
+
 import java.time.LocalDateTime;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -34,10 +36,27 @@ public class User implements UserDetails{
 
     private String name;
 
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String email;
 
-    private Boolean isValid;
+    private Boolean isEnabled;
+
+    private boolean accountNonExpired;
+
+    private boolean accountNonLocked;
+
+    private boolean credentialsNonExpired;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 
     private LocalDateTime createdAt;
 
