@@ -45,10 +45,6 @@ public class AuthenticationServiceImpl implements AuthenticationService{
             throw new ResourceAlreadyExistsException("Ya hay una cuenta asociada con el email " + requestRegisterDto.email() + ".");
         }
 
-        if (userRepository.findByDni(requestRegisterDto.dni()).isPresent()) {
-            throw new ResourceAlreadyExistsException("Ya hay una cuenta asociada con el DNI " + requestRegisterDto.dni() + ".");
-        }
-
         if (Period.between(requestRegisterDto.birthday(), LocalDate.now()).getYears() < 18) {
             throw new InvalidDataException("Debes tener al menos 18 años para registrarte.");
         }
