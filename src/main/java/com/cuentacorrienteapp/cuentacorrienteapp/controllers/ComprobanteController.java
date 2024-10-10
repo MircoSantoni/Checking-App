@@ -25,14 +25,14 @@ public class ComprobanteController {
     private final ComprobanteService comprobanteService;
 
     // mostrar comprobantes segun id
-    @GetMapping("/b-id/{id}")
+    @GetMapping("/mostrar-id/{id}")
     public ResponseEntity<ResponseComprobanteDto> viewId(@Valid @PathVariable String id) {
         ResponseComprobanteDto result = comprobanteService.findById(id);
         return ResponseEntity.ok(result);
     }
 
     // mostrar comprobante segun numero de comprobante 
-    @GetMapping("b-numero-comprobante/{nroComprobante}")
+    @GetMapping("mostrar-comprobante/{nroComprobante}")
     public ResponseEntity<ResponseComprobanteDto> viewNroCompr(@Valid @PathVariable Long nroComprobante) {
         ResponseComprobanteDto result = comprobanteService.findByNroComprobante(nroComprobante);
         return ResponseEntity.ok(result);
