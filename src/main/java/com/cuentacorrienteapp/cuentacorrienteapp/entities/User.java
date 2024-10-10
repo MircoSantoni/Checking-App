@@ -36,9 +36,14 @@ public class User implements UserDetails{
 
     private String name;
 
+    private String surname;
+
+    private String cuentaId; 
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    private String phone;   
 
     private Boolean isEnabled;
 
@@ -60,15 +65,6 @@ public class User implements UserDetails{
 
     private LocalDateTime createdAt;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
 
     @PrePersist
     protected void onCreate() {
