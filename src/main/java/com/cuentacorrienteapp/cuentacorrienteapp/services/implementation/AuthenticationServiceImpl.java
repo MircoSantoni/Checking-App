@@ -45,9 +45,6 @@ public class AuthenticationServiceImpl implements AuthenticationService{
             throw new ResourceAlreadyExistsException("Ya hay una cuenta asociada con el email " + requestRegisterDto.email() + ".");
         }
 
-        if (Period.between(requestRegisterDto.birthday(), LocalDate.now()).getYears() < 18) {
-            throw new InvalidDataException("Debes tener al menos 18 años para registrarte.");
-        }
 
         User user = userMapper.requestRegisterDtoToUser(requestRegisterDto);
         user.setPassword(passwordEncoder.encode(requestRegisterDto.password()));
