@@ -1,8 +1,5 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +12,9 @@ import com.cuentacorrienteapp.cuentacorrienteapp.dtos.user.RequestRegisterDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.user.ResponseLoginDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.user.ResponseRegisterDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.User;
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.InvalidUserCredentialsException;
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceAlreadyExistsException;
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.UserMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.AuthenticationService;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.UserRepository;
