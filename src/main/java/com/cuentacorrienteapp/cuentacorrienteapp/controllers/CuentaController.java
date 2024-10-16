@@ -25,7 +25,7 @@ public class CuentaController {
 
     private final CuentaService cuentaService;
 
-    @GetMapping("ver-cuentas")
+    @GetMapping("/ver-cuentas")
     public ResponseEntity<List<ResponseCuentaDto>> viewCuentas() {
         List<ResponseCuentaDto> result = cuentaService.findAll();
         return ResponseEntity.ok(result);
