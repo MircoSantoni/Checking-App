@@ -1,8 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.dtos.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 public record RequestRegisterDto(   
     
@@ -19,8 +17,10 @@ String surname,
 String email,
 
 @NotNull( message = "El celular para registrarse es obligatorio y no puede estar vacio")
-String phone,
+String phone,   
 
 @NotNull( message = "La contraseña para registrarse es obligatoria y no puede estar vacia")
-@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}$")
-String password) {}
+@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}$",
+message = "La contraseña debe tener al menos 8 caracteres, una letra minúscula, una letra mayúscula, un número y un carácter especial")
+String password
+) {}
