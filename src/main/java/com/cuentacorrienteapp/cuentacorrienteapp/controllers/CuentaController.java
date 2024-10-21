@@ -31,13 +31,13 @@ public class CuentaController {
         return ResponseEntity.ok(result);
     }
     
-    @GetMapping("ver-cuenta-id")
+    @GetMapping("/ver-cuenta-id/{id}")
     public ResponseEntity<ResponseCuentaDto> viewId( @PathVariable String id) {
         ResponseCuentaDto result = cuentaService.findById(id);
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("crear-cuenta")
+    @PostMapping("/crear-cuenta")
     public ResponseEntity<ResponseCuentaDto> saveCuenta(@Valid @RequestBody RequestCuentaDto requestCuentaDto){
         ResponseCuentaDto result = cuentaService.save(requestCuentaDto);
         return ResponseEntity.ok(result);
