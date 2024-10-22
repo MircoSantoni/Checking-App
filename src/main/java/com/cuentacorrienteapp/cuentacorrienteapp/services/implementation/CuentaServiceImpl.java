@@ -38,7 +38,7 @@ public class CuentaServiceImpl implements CuentaService{
     }
 
     @Override
-    @Transactional
+    @Transactional // cambiar esto a DTOs
     public ResponseCuentaDto save(RequestCuentaDto requestCuentaDto) {
         Optional<Cuenta> optionalCuenta = cuentaRepository.findByName(requestCuentaDto.name());
 
