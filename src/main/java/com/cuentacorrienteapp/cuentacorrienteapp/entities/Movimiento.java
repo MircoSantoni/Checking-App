@@ -1,6 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,10 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -41,10 +40,10 @@ public class Movimiento {
     private String comentarioMovimiento;
 
     @Column(name="fecha_alta_movimiento")
-    private LocalDate fechaAltaMovimiento;
+    private LocalDateTime fechaAltaMovimiento;
 
     @Column(name="fecha_baja_movimiento")
-    private LocalDate fechaBajaMovimiento;
+    private LocalDateTime fechaBajaMovimiento;
 
     @ManyToMany(  mappedBy = "movimientos")
     private Set<Comprobante> comprobantes = new HashSet<>();
@@ -53,5 +52,8 @@ public class Movimiento {
     @JoinColumn(name="cuenta_id")
     private Cuenta cuenta;
 
-
+    @PrePersist
+    protected void onCreate() {
+        this.fechaAltaMovimiento = LocalDateTime.now();
+    }
 }
