@@ -1,6 +1,7 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class MovimientoController {
 
     private final MovimientoService movimientoService;
     
-    @PostMapping
+    @PostMapping("/crear-movimiento")
     public ResponseEntity<ResponseCreateMovimientoDto> create(@Valid @RequestBody RequestCreateMovimientoDto requestCreateMovimientoDto) {
         ResponseCreateMovimientoDto responseCreateMovimientoDto = movimientoService.save(requestCreateMovimientoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseCreateMovimientoDto);
@@ -30,7 +31,13 @@ public class MovimientoController {
 
     //  agregarle movimientos a una cuenta ->
     
-    
+    @PostMapping("/asignar-cuenta")
+    public ResponseEntity<ResponsePutMovCuentaDto> putMovCuenta(@Valid RequestPutMovCuentaDto requestComprobanteDto) {
+        ResponsePutMovCuentaDto responsePutMovCuentaDto = movimientoService.putCuenta(requestComprobanteDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responsePutMovCuentaDto);
+    }
+
+
     // @PutMapping("/{id}")
     // public ResponseEntity<?> update(@RequestBody Movimiento movimiento , @PathVariable Long id ) {
     //     Optional<Movimiento> optionalMovimiento = movimientoService.update(id, movimiento);

@@ -13,4 +13,7 @@ public interface MovimientoMapper {
     ResponseCreateMovimientoDto movimientoToResponseCreateMovimientoDto (Movimiento movimiento);
 
     //Modificar movimiento
+
+    Movimiento requestPutMovCuentaDtoToMovimiento(RequestPutMovCuentaDto requestPutMovCuentaDto);
+    ResponsePutMovCuentaDto movimientoToResponsePutMovCuentaDto(Movimiento movimiento);
 }
