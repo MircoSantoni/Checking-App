@@ -50,4 +50,6 @@ public class CuentaController {
     }
 
 
+    //modificar datos de una cuenta de proveedors
+
 }
