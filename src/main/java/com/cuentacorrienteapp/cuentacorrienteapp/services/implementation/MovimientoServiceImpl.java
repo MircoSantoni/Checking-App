@@ -61,6 +61,7 @@ public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCue
     
     movimiento.setCuenta(cuenta);
     
+
     return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
 }
 
