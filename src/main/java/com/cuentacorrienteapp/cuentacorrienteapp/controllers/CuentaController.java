@@ -24,6 +24,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class CuentaController {
 
     private final CuentaService cuentaService;
+    
+    @PostMapping("/crear-cuenta")
+    public ResponseEntity<ResponseCuentaDto> saveCuenta(@Valid @RequestBody RequestCuentaDto requestCuentaDto){
+        ResponseCuentaDto result = cuentaService.save(requestCuentaDto);
+        return ResponseEntity.ok(result);
+    }
 
     @GetMapping("/ver-cuentas")
     public ResponseEntity<List<ResponseCuentaDto>> viewCuentas() {
@@ -37,12 +43,6 @@ public class CuentaController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/crear-cuenta")
-    public ResponseEntity<ResponseCuentaDto> saveCuenta(@Valid @RequestBody RequestCuentaDto requestCuentaDto){
-        ResponseCuentaDto result = cuentaService.save(requestCuentaDto);
-        return ResponseEntity.ok(result);
-    }
-    
     @PutMapping("/cambiar-estado/{idCuenta}")
     public ResponseEntity<ResponseCuentaDto> changeState( @PathVariable String idCuenta) {
         ResponseCuentaDto result = cuentaService.updateIsValid(idCuenta);

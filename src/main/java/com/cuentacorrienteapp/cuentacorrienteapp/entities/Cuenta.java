@@ -28,11 +28,8 @@ public class Cuenta {
 
     private String name;
 
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")
-    private Set<Movimiento> movimiento;
-
     private boolean isValid;
-
+    
     private String userId;
 
     @Column(name="nombre_proveedor")
@@ -40,11 +37,13 @@ public class Cuenta {
 
     @Column(name="numero_celular")
     private String numeroCelular;
-
+    
     @Column(name="email_proveedor")
     private String emailProveedor;
-
+    
     @Column(name="direccion_proveedor")
     private String direccionProveedor;
 
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true , mappedBy = "cuenta")
+    private Set<Movimiento> movimiento;
 }

@@ -37,8 +37,6 @@ public class User implements UserDetails{
 
     private String surname;
 
-    private String cuentaId; 
-
     @Column(nullable = false, unique = true)
     private String email;
 
