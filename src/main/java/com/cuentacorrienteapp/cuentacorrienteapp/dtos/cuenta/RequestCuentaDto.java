@@ -1,6 +1,10 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta;
 
 public record RequestCuentaDto(
-    Long saldo,
-    String name
+
+    String name,
+    String nombreProveedor,
+    String numeroCelular,
+    String emailProveedor,
+    String direccionProveedor
 ) {}

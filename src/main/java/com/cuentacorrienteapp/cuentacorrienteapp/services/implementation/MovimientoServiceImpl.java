@@ -15,6 +15,7 @@ import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponseCreateM
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponsePutMovCuentaDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.MovimientoMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
@@ -53,10 +54,13 @@ public ResponseCreateMovimientoDto save(RequestCreateMovimientoDto request) {
 public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto) {
     Movimiento movimiento = movimientoRepository.findById(requestPutMovCuentaDto.id_movimiento()).orElseThrow(() -> new EntityNotFoundException("Este movimiento no existe"));
 
-    Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta()).orElseThrow(() ->  new EntityNotFoundException("Esta cuenta no fue encontrada"));
-
+    Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta())
+    .orElseThrow(() -> new EntityNotFoundException(
+        String.format("Cuenta con ID %d no encontrada", requestPutMovCuentaDto.id_cuenta())
+    ));
+    
     movimiento.setCuenta(cuenta);
-
+    
 
     return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
 }
