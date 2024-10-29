@@ -3,9 +3,22 @@
 // import java.util.List;
 // import java.util.Optional;
 
+<<<<<<< Updated upstream
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.stereotype.Service;
 // import org.springframework.transaction.annotation.Transactional;
+=======
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.RequestCreateMovimientoDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.RequestPutMovCuentaDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponseCreateMovimientoDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponsePutMovCuentaDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
+import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
+import com.cuentacorrienteapp.cuentacorrienteapp.mappers.MovimientoMapper;
+import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
+import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
+import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
+>>>>>>> Stashed changes
 
 // import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 // import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
