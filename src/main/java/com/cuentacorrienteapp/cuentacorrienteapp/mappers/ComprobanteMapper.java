@@ -13,4 +13,9 @@ public interface ComprobanteMapper {
 
     Comprobante requestComprobanteDtoToComprobante(RequestComprobanteDto requestComprobanteDto);
     RequestComprobanteDto comprobanteToRequestComprobanteDto(Comprobante comprobante);
+
+   Comprobante requestAsignComprobanteDtoToComprobante(RequestAsignComprobanteDto requestAsignComprobanteDto);
+   ResponseAsignComprobanteDto comprobanteToResponseAsignComprobanteDto(Comprobante comprobante);
+
+   ResponseSetComprobanteDto comprobanteToResponseSetComprobanteDto (Comprobante comprobante);
 }

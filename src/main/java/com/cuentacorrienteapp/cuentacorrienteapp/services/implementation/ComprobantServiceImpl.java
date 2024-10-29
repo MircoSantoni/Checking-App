@@ -4,14 +4,21 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.RequestComprobanteDto;
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.ResponseComprobanteDto;
-import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
+import javax.management.RuntimeErrorException;
+
+
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.*;
+import com.cuentacorrienteapp.cuentacorrienteapp.entities.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceAlreadyExistsException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.ComprobanteMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.ComprobanteRepository;
+import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.ComprobanteService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class ComprobantServiceImpl implements ComprobanteService{
 
     private final ComprobanteRepository comprobanteRepository;
+    private final MovimientoRepository movimientoRepository;
     
     private final ComprobanteMapper comprobanteMapper;
 
@@ -39,8 +47,23 @@ public class ComprobantServiceImpl implements ComprobanteService{
         return comprobanteMapper.comprobanteToResponseComprobanteDto(comprobante);
     }
 
-@Override
-public ResponseComprobanteDto saveComprobante(RequestComprobanteDto requestComprobanteDto) {
+    @Override
+    @Transactional(readOnly = true)
+    public Set<ResponseSetComprobanteDto> findAll() {
+        return comprobanteRepository.findAll().stream()
+            .<ResponseSetComprobanteDto>map(comprobante -> ResponseSetComprobanteDto.builder()
+                .id(comprobante.getId())
+                .tipo_comprobante(comprobante.getTipoComprobante())
+                .descripcion(comprobante.getDescripcion())
+                .nroComprobante(comprobante.getNroComprobante())
+                .fechaAltaComprobante(comprobante.getFechaAltaComprobante())
+                .movimiento(comprobante.getMovimientos())
+                .build())
+            .collect(Collectors.toSet());
+    }
+
+    @Override
+    public ResponseComprobanteDto saveComprobante(RequestComprobanteDto requestComprobanteDto) {
     try {
         Comprobante newComprobante = comprobanteMapper.requestComprobanteDtoToComprobante(requestComprobanteDto);
         Comprobante savedComprobante = comprobanteRepository.save(newComprobante);
@@ -59,4 +82,20 @@ public ResponseComprobanteDto saveComprobante(RequestComprobanteDto requestCompr
         return comprobanteMapper.comprobanteToResponseComprobanteDto(comprobante);
     }
 
+
+    @Override
+    public ResponseAsignComprobanteDto asignMovimiento (RequestAsignComprobanteDto requestAsignComprobanteDto) {
+        Comprobante comprobante = comprobanteRepository.findById(requestAsignComprobanteDto.idComprobante()).orElseThrow(() -> new EntityNotFoundException("Comprobante no encontrado"));
+
+        Movimiento movimiento = movimientoRepository.findById(requestAsignComprobanteDto.idMovimiento()).orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
+
+        
+        try {
+            comprobante.addMovimiento(movimiento);
+            comprobanteRepository.save(comprobante);
+            return comprobanteMapper.comprobanteToResponseAsignComprobanteDto(comprobante);
+        } catch (Exception ex) {
+            throw new RuntimeException("Error general al asignar movimiento");
+        }
+    }
 }
