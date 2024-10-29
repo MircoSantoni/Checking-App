@@ -1,6 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -39,10 +40,10 @@ public class Comprobante {
     private Long nroComprobante;
 
     @Column(name="fecha_alta_comprobante")
-    private LocalDate fechaAltaComprobante;
+    private LocalDateTime fechaAltaComprobante;
 
     @Column(name="fecha_baja_comprobante")
-    private LocalDate fechaBajaComprobante;
+    private LocalDateTime fechaBajaComprobante;
 
     @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable( name = "comprobante_movimiento",
@@ -53,4 +54,13 @@ public class Comprobante {
 
     private boolean isValid;
 
+<<<<<<< Updated upstream
 }
+=======
+    @PrePersist
+    public void onCreate() {
+        this.fechaAltaComprobante = LocalDateTime.now();
+    }
+
+}
+>>>>>>> Stashed changes

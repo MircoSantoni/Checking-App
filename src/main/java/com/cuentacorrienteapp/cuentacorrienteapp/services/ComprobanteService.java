@@ -10,6 +10,6 @@ public interface ComprobanteService {
     ResponseComprobanteDto findById(String id);
     ResponseComprobanteDto findByNroComprobante(Long nroComprobante);
     ResponseComprobanteDto saveComprobante (RequestComprobanteDto requestComprobanteDto);
-    ResponseComprobanteDto updateIsValid(Long nroComprobante);
+    ResponseComprobanteDto updateIsValid(String id);
 
 }
