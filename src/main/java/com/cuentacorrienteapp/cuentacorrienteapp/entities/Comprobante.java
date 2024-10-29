@@ -15,8 +15,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -54,13 +52,10 @@ public class Comprobante {
 
     private boolean isValid;
 
-<<<<<<< Updated upstream
-}
-=======
     @PrePersist
     public void onCreate() {
         this.fechaAltaComprobante = LocalDateTime.now();
     }
 
 }
->>>>>>> Stashed changes
+}

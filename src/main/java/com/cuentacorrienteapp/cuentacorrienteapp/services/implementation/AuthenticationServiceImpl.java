@@ -76,9 +76,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         }
 
         String jwtToken = jwtService.generateToken(user);
-        ResponseLoginDto userDto = userMapper.userToResponseUserDto(user);
 
-        return new ResponseLoginDto(user.getId(), user.getCuentaId(), jwtToken, jwtService.getExpirationTime());
+        return new ResponseLoginDto(user.getId(), jwtToken, jwtService.getExpirationTime());
     }
 
 }

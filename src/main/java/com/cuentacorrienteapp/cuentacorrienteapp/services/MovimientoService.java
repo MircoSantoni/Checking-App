@@ -1,20 +1,14 @@
-// package com.cuentacorrienteapp.cuentacorrienteapp.services;
+package com.cuentacorrienteapp.cuentacorrienteapp.services;
 
-// import java.util.List;
-// import java.util.Optional;
 
-// import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.RequestCreateMovimientoDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.RequestPutMovCuentaDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponseCreateMovimientoDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponsePutMovCuentaDto;
 
-// public interface MovimientoService {
+public interface MovimientoService {
 
-//     List<Movimiento> findAll();
+    ResponseCreateMovimientoDto save(RequestCreateMovimientoDto requestCreateMovimientoDto);
 
-//     Optional<Movimiento> findById(Long id);
-
-//     Movimiento save(Movimiento movimiento);
-
-//     Optional<Movimiento> update(Long id , Movimiento movimiento);
-
-//     Optional<Movimiento> delete(Long id);
-
-// }
+    ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto);
+}

@@ -46,6 +46,12 @@ public class ComprobanteController {
     }
 <<<<<<< Updated upstream
 
+    // asignar un comprobante a un movimiento
+    // @PostMapping("/asignar-comprobante/{nroComprobante}/")
+    // public ResponseEntity<ResponseComprobanteDto> setMovimiento(@Valid @PathVariable Long nroComprobante) {
+    //     ResponseSetMovimiento result = comprobanteService.setMovimiento(nroComprobante);
+    // }
+
     @PostMapping("/cambiar-estado/{nroComprobante}")
     public ResponseEntity<ResponseComprobanteDto> updateState(@Valid @PathVariable Long nroComprobante ) {
         ResponseComprobanteDto result = comprobanteService.updateIsValid(nroComprobante);
