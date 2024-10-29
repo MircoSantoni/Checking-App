@@ -1,12 +1,14 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante;
 
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotNull;
 
 public record RequestComprobanteDto(
+
+@NotNull(message= "Colocar el tipo de comprobante es obligatorio")
 String tipoComprobante,
+@NotNull(message= "Colocar una descripcion de un comprobante es obligatorio")
 String descripcion,
-Long nroComprobante,
-LocalDate fechaAltaComprobante,
-LocalDate fechaBajaComprobante
+@NotNull(message="Colocar el numero del comprobante es obligatorio")
+Long nroComprobante
 
 ) {}
