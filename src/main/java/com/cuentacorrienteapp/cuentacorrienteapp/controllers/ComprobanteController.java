@@ -32,9 +32,16 @@ public class ComprobanteController {
     }
 
     // mostrar comprobantes segun numero de comprobante este debe de devolvver una lista pajin
-    @GetMapping("mostrar-comprobante/{nroComprobante}")
+    @GetMapping("/mostrar-comprobante/{nroComprobante}")
     public ResponseEntity<ResponseComprobanteDto> viewNroCompr(@Valid @PathVariable Long nroComprobante) {
         ResponseComprobanteDto result = comprobanteService.findByNroComprobante(nroComprobante);
+        return ResponseEntity.ok(result);
+    }
+
+    //mostrar comprobantes segun movimiento asignado
+    @GetMapping("/mostrar")
+    public ResponseEntity<ResponseSetComprobantesDto> viewComprobante() {
+        ResponseSetComprobanteDto result = comprobanteService.findAll();
         return ResponseEntity.ok(result);
     }
 
@@ -44,21 +51,6 @@ public class ComprobanteController {
         ResponseComprobanteDto result = comprobanteService.saveComprobante(requestComprobanteDto);
         return ResponseEntity.ok(result);
     }
-<<<<<<< Updated upstream
-
-    // asignar un comprobante a un movimiento
-    // @PostMapping("/asignar-comprobante/{nroComprobante}/")
-    // public ResponseEntity<ResponseComprobanteDto> setMovimiento(@Valid @PathVariable Long nroComprobante) {
-    //     ResponseSetMovimiento result = comprobanteService.setMovimiento(nroComprobante);
-    // }
-
-    @PostMapping("/cambiar-estado/{nroComprobante}")
-    public ResponseEntity<ResponseComprobanteDto> updateState(@Valid @PathVariable Long nroComprobante ) {
-        ResponseComprobanteDto result = comprobanteService.updateIsValid(nroComprobante);
-        return ResponseEntity.ok(result);
-    }
-    
-=======
     
     @PostMapping("/cambiar-estado/{id}")
     public ResponseEntity<ResponseComprobanteDto> updateState(@Valid @PathVariable String id ) {
@@ -67,9 +59,9 @@ public class ComprobanteController {
     }
     
     // asignar un comprobante a un movimiento
-    // @PostMapping("/asignar-comprobante/{nroComprobante}/")
-    // public ResponseEntity<ResponseComprobanteDto> setMovimiento(@Valid @PathVariable Long nroComprobante) {
-    //     ResponseSetMovimiento result = comprobanteService.setMovimiento(nroComprobante);
-    // }
->>>>>>> Stashed changes
+    @PostMapping("/asignar-comprobante")
+    public ResponseEntity<ResponseAsignComprobanteDto> setMovimiento(@Valid @RequestBody RequestAsignComprobanteDto requestAsignComprobanteDto) {
+        ResponseAsignComprobanteDto result = comprobanteService.asignMovimiento(requestAsignComprobanteDto);
+        return ResponseEntity.ok(result);
+    }
 }

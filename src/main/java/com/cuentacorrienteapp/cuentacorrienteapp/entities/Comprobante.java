@@ -57,5 +57,8 @@ public class Comprobante {
         this.fechaAltaComprobante = LocalDateTime.now();
     }
 
-}
+
+    public void addMovimiento(Movimiento movimiento) {
+        this.movimientos.add(movimiento);
+    }
 }
