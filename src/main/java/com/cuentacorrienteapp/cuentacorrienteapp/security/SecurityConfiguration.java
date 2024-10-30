@@ -17,8 +17,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -29,14 +29,14 @@ public class SecurityConfiguration {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/autenticacion/**" , "/error").permitAll()
+                .requestMatchers("/api/autenticacion/**", "/error").permitAll()
                 .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -44,13 +44,33 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.setAllowedHeaders(List.of("http://localhost:8080", "http://localhost:5432", "https://cuenta-proveedores-4jllxyduo-agustitos-projects.vercel.app"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfiguration.setAllowedOrigins(List.of("Authorization", "Content-Type"));
-
+        
+        corsConfiguration.setAllowedOrigins(List.of(
+            "http://localhost:8080", 
+            "http://localhost:5432",
+            "https://cuenta-proveedores-4jllxyduo-agustitos-projects.vercel.app"
+        ));
+        
+        corsConfiguration.setAllowedMethods(List.of(
+            "GET", 
+            "POST", 
+            "PUT", 
+            "DELETE", 
+            "OPTIONS"
+        ));
+        
+        corsConfiguration.setAllowedHeaders(List.of(
+            "Authorization", 
+            "Content-Type"
+        ));
+        
+        corsConfiguration.setAllowCredentials(true);
+        
+        corsConfiguration.setExposedHeaders(List.of("Authorization"));
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
 }
