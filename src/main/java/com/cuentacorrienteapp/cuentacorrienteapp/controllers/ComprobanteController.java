@@ -10,6 +10,7 @@ import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,15 +34,15 @@ public class ComprobanteController {
 
     // mostrar comprobantes segun numero de comprobante este debe de devolvver una lista pajin
     @GetMapping("/mostrar-comprobante/{nroComprobante}")
-    public ResponseEntity<ResponseComprobanteDto> viewNroCompr(@Valid @PathVariable Long nroComprobante) {
-        ResponseComprobanteDto result = comprobanteService.findByNroComprobante(nroComprobante);
+    public ResponseEntity<Set<ResponseComprobanteDto>> viewNroCompr(@Valid @PathVariable Long nroComprobante) {
+        Set<ResponseComprobanteDto> result = comprobanteService.findByNroComprobante(nroComprobante);
         return ResponseEntity.ok(result);
     }
 
     //mostrar comprobantes segun movimiento asignado
     @GetMapping("/mostrar")
-    public ResponseEntity<ResponseSetComprobantesDto> viewComprobante() {
-        ResponseSetComprobanteDto result = comprobanteService.findAll();
+    public ResponseEntity<Set<ResponseSetComprobanteDto>> viewComprobante() {
+        Set<ResponseSetComprobanteDto> result = comprobanteService.findAll();
         return ResponseEntity.ok(result);
     }
 
