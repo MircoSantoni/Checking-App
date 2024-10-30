@@ -11,72 +11,11 @@ import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponsePutMovC
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.MovimientoMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
 
-
-// import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
-// import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
-// import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
-
-// @Service
-// public class MovimientoServiceImpl implements MovimientoService{
-
-//     @Autowired
-//     private MovimientoRepository repository;
-
-//     @Override
-//     @Transactional(readOnly = true)
-//     public List<Movimiento> findAll() {
-//         return (List<Movimiento>) repository.findAll();
-//     }
-
-//     @Override
-//     @Transactional(readOnly = true)
-//     public Optional<Movimiento> findById(Long id) {
-//         return repository.findById(id);
-//     }
-
-//     @Override
-//     @Transactional
-//     public Movimiento save(Movimiento movimiento) {
-//         return repository.save(movimiento);
-//     }
-
-//     @Override
-//     @Transactional
-//     public Optional<Movimiento> update(Long id, Movimiento movimiento) {
-//         Optional<Movimiento> optionalMovimiento = repository.findById(id);
-
-//         if (optionalMovimiento.isPresent()) {
-//             Movimiento mov = optionalMovimiento.orElseThrow();
-//             mov.setImporteMovimiento(movimiento.getImporteMovimiento());
-//             mov.setMedioPago(movimiento.getMedioPago());
-//             mov.setComentarioMovimiento(movimiento.getComentarioMovimiento());
-//             mov.setFechaAltaMovimiento(movimiento.getFechaAltaMovimiento());
-//             mov.setFechaBajaMovimiento(movimiento.getFechaBajaMovimiento());
-
-//             return Optional.of(repository.save(mov));
-//         }
-//         return optionalMovimiento;
-//     }
-
-//     @Override
-//     @Transactional
-//     public Optional<Movimiento> delete(Long id) {
-//         Optional<Movimiento> optionalMovimiento = repository.findById(id);
-        
-//         optionalMovimiento.ifPresent( mov -> {
-//             repository.delete(mov);
-//         });
-//         return optionalMovimiento;
-//     }
-
-// }
-}
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -91,35 +30,35 @@ public class MovimientoServiceImpl implements MovimientoService{
     private final MovimientoMapper movimientoMapper;
 
 
-@Override
-@Transactional
-public ResponseCreateMovimientoDto save(RequestCreateMovimientoDto request) {
-    if (request == null) {
-        throw new IllegalArgumentException("El request no puede ser null");
-    } else {
-        Movimiento movimiento = movimientoMapper.requestCreateMovimientoDtoToMovimiento(request);
-        Movimiento savedMovimiento = movimientoRepository.save(movimiento);
+    @Override
+    @Transactional
+    public ResponseCreateMovimientoDto save(RequestCreateMovimientoDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("El request no puede ser null");
+        } else {
+            Movimiento movimiento = movimientoMapper.requestCreateMovimientoDtoToMovimiento(request);
+            Movimiento savedMovimiento = movimientoRepository.save(movimiento);
 
-        return movimientoMapper.movimientoToResponseCreateMovimientoDto(savedMovimiento);
+            return movimientoMapper.movimientoToResponseCreateMovimientoDto(savedMovimiento);
 
+        }
     }
-}
 
-@Override
-@Transactional
-public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto) {
-    Movimiento movimiento = movimientoRepository.findById(requestPutMovCuentaDto.id_movimiento()).orElseThrow(() -> new EntityNotFoundException("Este movimiento no existe"));
+    @Override
+    @Transactional
+    public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto) {
+        Movimiento movimiento = movimientoRepository.findById(requestPutMovCuentaDto.id_movimiento()).orElseThrow(() -> new EntityNotFoundException("Este movimiento no existe"));
 
-    Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta())
-    .orElseThrow(() -> new EntityNotFoundException(
-        String.format("Cuenta con ID %d no encontrada", requestPutMovCuentaDto.id_cuenta())
-    ));
-    
-    movimiento.setCuenta(cuenta);
-    
+        Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta())
+        .orElseThrow(() -> new EntityNotFoundException(
+            String.format("Cuenta con ID %d no encontrada", requestPutMovCuentaDto.id_cuenta())
+        ));
+        
+        movimiento.setCuenta(cuenta);
+        
 
-    return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
-}
+        return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
+        }
 
 
 }

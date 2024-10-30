@@ -26,6 +26,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/api/autenticacion/**" , "/error").permitAll()
@@ -44,8 +45,8 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.setAllowedHeaders(List.of("http://localhost:8080", "http://localhost:5432"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT"));
+        corsConfiguration.setAllowedHeaders(List.of("http://localhost:8080", "http://localhost:5432", "https://cuenta-proveedores-4jllxyduo-agustitos-projects.vercel.app"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedOrigins(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

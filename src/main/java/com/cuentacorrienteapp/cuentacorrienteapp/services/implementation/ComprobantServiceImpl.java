@@ -42,24 +42,34 @@ public class ComprobantServiceImpl implements ComprobanteService{
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseComprobanteDto findByNroComprobante(Long nroComprobante) {
-        Comprobante comprobante = comprobanteRepository.findByNroComprobante(nroComprobante).orElseThrow(() -> new EntityNotFoundException("Comprobante no encontrado"));
-        return comprobanteMapper.comprobanteToResponseComprobanteDto(comprobante);
+    public Set<ResponseComprobanteDto> findByNroComprobante(Long nroComprobante) {
+        Optional<List<Comprobante>> comprobantesOpt = comprobanteRepository.findByNroComprobante(nroComprobante);
+        
+        if (comprobantesOpt.isEmpty() ) {
+            throw new EntityNotFoundException("No se encontraron comprobantes con el número " + nroComprobante);
+        }
+        return comprobantesOpt.get().stream()
+            .map(comprobanteMapper::comprobanteToResponseComprobanteDto)
+            .collect(Collectors.toSet());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Set<ResponseSetComprobanteDto> findAll() {
-        return comprobanteRepository.findAll().stream()
-            .<ResponseSetComprobanteDto>map(comprobante -> ResponseSetComprobanteDto.builder()
-                .id(comprobante.getId())
-                .tipo_comprobante(comprobante.getTipoComprobante())
-                .descripcion(comprobante.getDescripcion())
-                .nroComprobante(comprobante.getNroComprobante())
-                .fechaAltaComprobante(comprobante.getFechaAltaComprobante())
-                .movimiento(comprobante.getMovimientos())
-                .build())
-            .collect(Collectors.toSet());
+        try {
+            return comprobanteRepository.findAll().stream()
+                .<ResponseSetComprobanteDto>map(comprobante -> ResponseSetComprobanteDto.builder()
+                    .id(comprobante.getId())
+                    .tipo_comprobante(comprobante.getTipoComprobante())
+                    .descripcion(comprobante.getDescripcion())
+                    .nroComprobante(comprobante.getNroComprobante())
+                    .fechaAltaComprobante(comprobante.getFechaAltaComprobante())
+                    .movimiento(comprobante.getMovimientos())
+                    .build())
+                .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los comprobantes", e);
+        }
     }
 
     @Override
