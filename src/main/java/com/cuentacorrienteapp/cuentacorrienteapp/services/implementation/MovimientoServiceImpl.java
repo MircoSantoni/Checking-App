@@ -4,10 +4,7 @@ package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.RequestCreateMovimientoDto;
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.RequestPutMovCuentaDto;
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponseCreateMovimientoDto;
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.ResponsePutMovCuentaDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 
@@ -48,13 +45,12 @@ public class MovimientoServiceImpl implements MovimientoService{
     @Transactional
     public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto) {
         Movimiento movimiento = movimientoRepository.findById(requestPutMovCuentaDto.id_movimiento()).orElseThrow(() -> new EntityNotFoundException("Este movimiento no existe"));
-
         Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta()).orElseThrow(() -> new EntityNotFoundException("Cuenta con ID %d no encontrada"));
         
         movimiento.setCuenta(cuenta);
         
-
-        return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
+        Movimiento savedMovimiento = movimientoRepository.save(movimiento);
+        return movimientoMapper.movimientoToResponsePutMovCuentaDto(savedMovimiento);
         }
 
 
