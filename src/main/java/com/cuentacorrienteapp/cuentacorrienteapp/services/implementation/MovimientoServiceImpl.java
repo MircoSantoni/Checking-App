@@ -1,5 +1,7 @@
-
 package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,45 @@ public class MovimientoServiceImpl implements MovimientoService{
 
     private final MovimientoMapper movimientoMapper;
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<ResponseMovimientoDto> findAll() {
+        try {
+            return movimientoRepository.findAll().stream()
+                .<ResponseMovimientoDto>map(movimiento -> ResponseMovimientoDto.builder()
+                .id(movimiento.getId()  )
+                .importeMovimiento(movimiento.getImporteMovimiento())
+                .medioPago(movimiento.getMedioPago())
+                .comentarioMovimiento(movimiento.getComentarioMovimiento())
+                .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento())
+                .fechaBajaMovimiento(movimiento.getFechaBajaMovimiento())
+                .comprobantes(movimiento.getComprobantes())
+                .build())
+                .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los movimientos", e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<ResponseActiveMovimientoDto> findAllActive() {
+        try {
+            return movimientoRepository.findAll().stream()
+                .<ResponseActiveMovimientoDto>map(movimiento -> ResponseActiveMovimientoDto.builder()
+                .id(movimiento.getId()  )
+                .importeMovimiento(movimiento.getImporteMovimiento())
+                .medioPago(movimiento.getMedioPago())
+                .comentarioMovimiento(movimiento.getComentarioMovimiento())
+                .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento())
+                .comprobantes(movimiento.getComprobantes())
+                .build())
+                .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los movimientos", e);
+        }
+    }
 
     @Override
     @Transactional
