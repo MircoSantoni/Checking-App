@@ -1,5 +1,7 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.controllers;
 
+import java.util.Set;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,8 +25,20 @@ public class MovimientoController {
     
     private final MovimientoService movimientoService;
     
-    // falta ver todos los movimientos y ver todos los dados de baja
-
+    
+    // traer todos los movimientos 
+    @GetMapping("/movimientos")
+    public ResponseEntity<Set<ResponseActiveMovimientoDto>> getAllActiveMovimientos() {
+        Set<ResponseActiveMovimientoDto> movimientos = movimientoService.findAllActive();
+        return ResponseEntity.ok(movimientos);
+    }
+    
+    // traer todos los movimientos incluidos los dados de baja
+    @GetMapping("/movimientos-todos")
+    public ResponseEntity<Set<ResponseMovimientoDto>> getAllMovimientos() {
+        Set<ResponseMovimientoDto> movimientos = movimientoService.findAll();
+        return ResponseEntity.ok(movimientos);
+    }
     
     @PostMapping("/crear-movimiento")
     public ResponseEntity<ResponseCreateMovimientoDto> create(@Valid @RequestBody RequestCreateMovimientoDto requestCreateMovimientoDto) {
