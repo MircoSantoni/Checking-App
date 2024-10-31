@@ -42,17 +42,14 @@ public class MovimientoServiceImpl implements MovimientoService{
             return movimientoMapper.movimientoToResponseCreateMovimientoDto(savedMovimiento);
 
         }
-    }
+    }  
 
     @Override
     @Transactional
     public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto) {
         Movimiento movimiento = movimientoRepository.findById(requestPutMovCuentaDto.id_movimiento()).orElseThrow(() -> new EntityNotFoundException("Este movimiento no existe"));
 
-        Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta())
-        .orElseThrow(() -> new EntityNotFoundException(
-            String.format("Cuenta con ID %d no encontrada", requestPutMovCuentaDto.id_cuenta())
-        ));
+        Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta()).orElseThrow(() -> new EntityNotFoundException("Cuenta con ID %d no encontrada"));
         
         movimiento.setCuenta(cuenta);
         
