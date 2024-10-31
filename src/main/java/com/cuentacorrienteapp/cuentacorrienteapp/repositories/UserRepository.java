@@ -11,4 +11,5 @@ import com.cuentacorrienteapp.cuentacorrienteapp.entities.User;
 public interface UserRepository extends JpaRepository<User, String>{
 
         Optional<User> findByEmail(String email);
+        Optional<User> findByCuit(String cuit);
 }
