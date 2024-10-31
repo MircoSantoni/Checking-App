@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 @RequestMapping("/api/movimientos")
 public class MovimientoController {
-
+    
     private final MovimientoService movimientoService;
+    
+    // falta ver todos los movimientos y ver todos los dados de baja
+
     
     @PostMapping("/crear-movimiento")
     public ResponseEntity<ResponseCreateMovimientoDto> create(@Valid @RequestBody RequestCreateMovimientoDto requestCreateMovimientoDto) {
@@ -28,22 +31,21 @@ public class MovimientoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseCreateMovimientoDto);
     }
 
-    //  agregarle movimientos a una cuenta ->
     
+    // agregarle movimientos a una cuenta 
     @PostMapping("/asignar-cuenta")
     public ResponseEntity<ResponsePutMovCuentaDto> putMovCuenta(@Valid RequestPutMovCuentaDto requestComprobanteDto) {
         ResponsePutMovCuentaDto responsePutMovCuentaDto = movimientoService.putCuenta(requestComprobanteDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responsePutMovCuentaDto);
     }
-
-
-    // @PutMapping("/{id}")
-    // public ResponseEntity<?> update(@RequestBody Movimiento movimiento , @PathVariable Long id ) {
-    //     Optional<Movimiento> optionalMovimiento = movimientoService.update(id, movimiento);
-
-    //     if( optionalMovimiento.isPresent()){
-    //         return ResponseEntity.ok(optionalMovimiento.orElseThrow());
-    //     }
-    //     return ResponseEntity.notFound().build();
+    
+    // cambiar estado
+    // @PostMapping("/{id}")
+    // public ResponseEntity<?> asignCuenta(@RequestBody @Valid RequestAsignMovCuen requestAsignMovCuen) {
+    //     ResponseAsignMovCuen result = movimientoService.asignCuenta(requestAsignMovCuen);
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(result);
     // }
+
+
+
 }

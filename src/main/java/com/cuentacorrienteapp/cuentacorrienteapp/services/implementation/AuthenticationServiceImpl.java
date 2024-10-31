@@ -48,6 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
         User user = userMapper.requestRegisterDtoToUser(requestRegisterDto);
         user.setPassword(passwordEncoder.encode(requestRegisterDto.password()));
+        user.setCuit(requestRegisterDto.cuit());
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
@@ -60,7 +61,12 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     @Transactional
     public ResponseLoginDto login(RequestLoginDto requestLoginDto) {
         User user = userRepository.findByEmail(requestLoginDto.email()).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
+        
+        userRepository.findByCuit(requestLoginDto.cuit()).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
+        if (!user.getCuit().equals(requestLoginDto.cuit())) {
+            throw new InvalidUserCredentialsException("El CUIT no corresponde al usuario");
+        }
         if (!user.isEnabled()) {
             throw new InvalidUserCredentialsException("Cuenta no verificada. Por favor verifique su cuenta.");
         }
@@ -68,11 +74,10 @@ public class AuthenticationServiceImpl implements AuthenticationService{
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             requestLoginDto.email(),
-                            requestLoginDto.password()
-                    )
+                            requestLoginDto.password()                    )
             );
         } catch (BadCredentialsException ex) {
-            throw new InvalidUserCredentialsException("Email y/o contraseña inválidos.");
+            throw new InvalidUserCredentialsException("Email, contraseña o cuit inválidos.");
         }
 
         String jwtToken = jwtService.generateToken(user);

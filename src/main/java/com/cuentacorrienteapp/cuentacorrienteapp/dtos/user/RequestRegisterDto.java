@@ -12,6 +12,9 @@ String name,
 @Pattern( regexp = "^[a-zA-ZÀ-ÿ\\s]+$", message="El apellido no puede contener caracteres especiales")
 String surname,
 
+@NotNull( message = "El cuit para registrarse es obligatorio y no puede estar vacio")
+String cuit,
+
 @NotNull(message = "El correo para registrarse es obligatorio y no puede estar vacio")
 @Email( message = "El formato debe de ser el de un correo valido")
 String email,
