@@ -54,8 +54,7 @@ public class SecurityConfiguration {
             "http://localhost:8080", 
             "http://localhost:5432",
             "http://localhost:5173",
-            "https://cuenta-proveedores-4jllxyduo-agustitos-projects.vercel.app",
-            "https://cuenta-proveedores.vercel.app/"
+            "https://cuenta-proveedores.vercel.app"
         ));
         
         corsConfiguration.setAllowedMethods(List.of(
