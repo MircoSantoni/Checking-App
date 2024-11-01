@@ -1,5 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
-
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.MovimientoMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
@@ -35,7 +36,7 @@ public class MovimientoServiceImpl implements MovimientoService{
         try {
             return movimientoRepository.findAll().stream()
                 .<ResponseMovimientoDto>map(movimiento -> ResponseMovimientoDto.builder()
-                .id(movimiento.getId()  )
+                .id(movimiento.getId())
                 .importeMovimiento(movimiento.getImporteMovimiento())
                 .medioPago(movimiento.getMedioPago())
                 .comentarioMovimiento(movimiento.getComentarioMovimiento())
@@ -48,14 +49,15 @@ public class MovimientoServiceImpl implements MovimientoService{
             throw new RuntimeException("Error al obtener los movimientos", e);
         }
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public Set<ResponseActiveMovimientoDto> findAllActive() {
         try {
             return movimientoRepository.findAll().stream()
+                .filter(movimiento -> movimiento.getFechaBajaMovimiento() == null) 
                 .<ResponseActiveMovimientoDto>map(movimiento -> ResponseActiveMovimientoDto.builder()
-                .id(movimiento.getId()  )
+                .id(movimiento.getId())
                 .importeMovimiento(movimiento.getImporteMovimiento())
                 .medioPago(movimiento.getMedioPago())
                 .comentarioMovimiento(movimiento.getComentarioMovimiento())
@@ -89,10 +91,20 @@ public class MovimientoServiceImpl implements MovimientoService{
         Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta()).orElseThrow(() -> new EntityNotFoundException("Cuenta con ID %d no encontrada"));
         
         movimiento.setCuenta(cuenta);
+        movimientoRepository.save(movimiento);
         
-        Movimiento savedMovimiento = movimientoRepository.save(movimiento);
-        return movimientoMapper.movimientoToResponsePutMovCuentaDto(savedMovimiento);
+        return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
         }
 
 
+    @Override
+    @Transactional
+    public ResponseMovimientoDto changeState(String id) {
+        Movimiento movimiento = movimientoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No hay ninguna cuenta con ese id"));
+
+        movimiento.setFechaBajaMovimiento(LocalDateTime.now());
+        movimientoRepository.save(movimiento);
+
+        return movimientoMapper.movimientoToResponseMovimientoDto(movimiento);
+    }
 }

@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -27,26 +28,26 @@ public class MovimientoController {
     
     
     // traer todos los movimientos 
-    @GetMapping("/movimientos")
+    @GetMapping("/ver")
     public ResponseEntity<Set<ResponseActiveMovimientoDto>> getAllActiveMovimientos() {
         Set<ResponseActiveMovimientoDto> movimientos = movimientoService.findAllActive();
         return ResponseEntity.ok(movimientos);
     }
     
     // traer todos los movimientos incluidos los dados de baja
-    @GetMapping("/movimientos-todos")
+    @GetMapping("/ver-todos")
     public ResponseEntity<Set<ResponseMovimientoDto>> getAllMovimientos() {
         Set<ResponseMovimientoDto> movimientos = movimientoService.findAll();
         return ResponseEntity.ok(movimientos);
     }
     
+    // crear un movimiento
     @PostMapping("/crear-movimiento")
     public ResponseEntity<ResponseCreateMovimientoDto> create(@Valid @RequestBody RequestCreateMovimientoDto requestCreateMovimientoDto) {
         ResponseCreateMovimientoDto responseCreateMovimientoDto = movimientoService.save(requestCreateMovimientoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseCreateMovimientoDto);
     }
 
-    
     // agregarle movimientos a una cuenta 
     @PostMapping("/asignar-cuenta")
     public ResponseEntity<ResponsePutMovCuentaDto> putMovCuenta(@Valid RequestPutMovCuentaDto requestComprobanteDto) {
@@ -55,12 +56,10 @@ public class MovimientoController {
     }
     
     // cambiar estado
-    // @PostMapping("/{id}")
-    // public ResponseEntity<?> asignCuenta(@RequestBody @Valid RequestAsignMovCuen requestAsignMovCuen) {
-    //     ResponseAsignMovCuen result = movimientoService.asignCuenta(requestAsignMovCuen);
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(result);
-    // }
-
-
+    @PostMapping("/cambiar-estado/{id}")
+    public ResponseEntity<?> asignCuenta(@PathVariable String id) {
+        ResponseMovimientoDto result = movimientoService.changeState(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
 
 }

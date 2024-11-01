@@ -25,11 +25,7 @@ public class CuentaController {
 
     private final CuentaService cuentaService;
     
-    @PostMapping("/crear-cuenta")
-    public ResponseEntity<ResponseCuentaDto> saveCuenta(@Valid @RequestBody RequestCuentaDto requestCuentaDto){
-        ResponseCuentaDto result = cuentaService.save(requestCuentaDto);
-        return ResponseEntity.ok(result);
-    }
+
 
     @GetMapping("/ver-cuentas")
     public ResponseEntity<List<ResponseCuentaDto>> viewCuentas() {
@@ -40,6 +36,12 @@ public class CuentaController {
     @GetMapping("/ver-cuenta-id/{id}")
     public ResponseEntity<ResponseCuentaDto> viewId( @PathVariable String id) {
         ResponseCuentaDto result = cuentaService.findById(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/crear-cuenta")
+    public ResponseEntity<ResponseCuentaDto> saveCuenta(@Valid @RequestBody RequestCuentaDto requestCuentaDto){
+        ResponseCuentaDto result = cuentaService.save(requestCuentaDto);
         return ResponseEntity.ok(result);
     }
 
