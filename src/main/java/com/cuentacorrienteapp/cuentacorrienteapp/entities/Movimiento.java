@@ -49,9 +49,9 @@ public class Movimiento {
     private Set<Comprobante> comprobantes = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name="cuenta_id")
+    @JoinColumn(name = "cuenta_id")
     private Cuenta cuenta;
-
+    
     @PrePersist
     protected void onCreate() {
         this.fechaAltaMovimiento = LocalDateTime.now();

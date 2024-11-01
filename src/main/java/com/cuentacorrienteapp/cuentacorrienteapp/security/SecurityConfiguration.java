@@ -29,7 +29,12 @@ public class SecurityConfiguration {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/autenticacion/**", "/error").permitAll()
+                .requestMatchers("/api/autenticacion/**",
+                "/error",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui.html")
+                .permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -48,7 +53,9 @@ public class SecurityConfiguration {
         corsConfiguration.setAllowedOrigins(List.of(
             "http://localhost:8080", 
             "http://localhost:5432",
-            "https://cuenta-proveedores-4jllxyduo-agustitos-projects.vercel.app"
+            "http://localhost:5173",
+            "https://cuenta-proveedores-4jllxyduo-agustitos-projects.vercel.app",
+            "https://cuenta-proveedores.vercel.app/"
         ));
         
         corsConfiguration.setAllowedMethods(List.of(

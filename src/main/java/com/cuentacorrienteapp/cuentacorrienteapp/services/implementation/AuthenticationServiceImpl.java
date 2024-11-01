@@ -70,6 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         if (!user.isEnabled()) {
             throw new InvalidUserCredentialsException("Cuenta no verificada. Por favor verifique su cuenta.");
         }
+        
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
