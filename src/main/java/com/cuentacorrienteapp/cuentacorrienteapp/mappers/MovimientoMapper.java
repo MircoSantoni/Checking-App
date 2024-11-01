@@ -16,4 +16,6 @@ public interface MovimientoMapper {
 
     Movimiento requestPutMovCuentaDtoToMovimiento(RequestPutMovCuentaDto requestPutMovCuentaDto);
     ResponsePutMovCuentaDto movimientoToResponsePutMovCuentaDto(Movimiento movimiento);
+
+    ResponseMovimientoDto movimientoToResponseMovimientoDto(Movimiento movimiento);
 }
