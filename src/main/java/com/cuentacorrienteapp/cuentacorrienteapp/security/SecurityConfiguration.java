@@ -51,10 +51,7 @@ public class SecurityConfiguration {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         
         corsConfiguration.setAllowedOrigins(List.of(
-            "http://localhost:8080", 
-            "http://localhost:5432",
-            "http://localhost:5173",
-            "https://cuenta-proveedores.vercel.app"
+            "*"
         ));
         
         corsConfiguration.setAllowedMethods(List.of(
@@ -72,7 +69,7 @@ public class SecurityConfiguration {
         
         corsConfiguration.setAllowCredentials(true);
         
-        corsConfiguration.setExposedHeaders(List.of("Authorization"));
+        corsConfiguration.setExposedHeaders(List.of("*"));
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
