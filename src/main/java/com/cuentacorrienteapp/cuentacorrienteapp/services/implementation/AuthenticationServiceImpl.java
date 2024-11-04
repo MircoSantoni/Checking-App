@@ -44,7 +44,9 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         if (userRepository.findByEmail(requestRegisterDto.email()).isPresent()) {
             throw new ResourceAlreadyExistsException("Ya hay una cuenta asociada con el email " + requestRegisterDto.email() + ".");
         }
-
+        if (userRepository.findByCuit(requestRegisterDto.cuit()).isPresent()) {
+            throw new ResourceAlreadyExistsException("Ya hay una cuenta asociada con el cuit " + requestRegisterDto.cuit() + ".");
+        }
 
         User user = userMapper.requestRegisterDtoToUser(requestRegisterDto);
         user.setPassword(passwordEncoder.encode(requestRegisterDto.password()));
