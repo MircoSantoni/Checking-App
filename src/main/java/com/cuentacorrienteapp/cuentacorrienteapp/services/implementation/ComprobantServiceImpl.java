@@ -1,21 +1,17 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.*;
-import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceAlreadyExistsException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.ComprobanteMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.ComprobanteRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;

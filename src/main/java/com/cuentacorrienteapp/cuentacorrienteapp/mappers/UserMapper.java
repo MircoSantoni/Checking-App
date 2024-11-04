@@ -8,7 +8,6 @@ import com.cuentacorrienteapp.cuentacorrienteapp.entities.User;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-
     User requestRegisterDtoToUser(RequestRegisterDto requestRegisterDto);
 
     User requestLoginDtoTouser(RequestLoginDto requestLoginDto);

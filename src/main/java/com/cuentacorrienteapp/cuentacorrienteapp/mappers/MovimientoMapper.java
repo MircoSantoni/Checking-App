@@ -5,7 +5,7 @@ import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel = "spring")
 public interface MovimientoMapper {
 
     // Crear movimiento
