@@ -51,7 +51,8 @@ public class SecurityConfiguration {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         
         corsConfiguration.setAllowedOrigins(List.of(
-            "*"
+            "https://cuenta-proveedores.vercel.app"
+
         ));
         
         corsConfiguration.setAllowedMethods(List.of(
@@ -63,9 +64,16 @@ public class SecurityConfiguration {
         ));
         
         corsConfiguration.setAllowedHeaders(List.of(
-            "*"
+            "Authorization",
+            "Content-Type",
+            "Accept",
+            "Origin",
+            "X-Requested-With"
         ));
         
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setMaxAge(3600L);
+
 
         corsConfiguration.setExposedHeaders(List.of("*"));
         
