@@ -63,8 +63,7 @@ public class SecurityConfiguration {
         ));
         
         corsConfiguration.setAllowedHeaders(List.of(
-            "Authorization", 
-            "Content-Type"
+            "*"
         ));
         
         corsConfiguration.setAllowCredentials(true);
