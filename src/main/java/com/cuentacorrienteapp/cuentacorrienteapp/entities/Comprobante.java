@@ -48,6 +48,7 @@ public class Comprobante {
         joinColumns = { @JoinColumn(name = "comprobante_id")},
         inverseJoinColumns = { @JoinColumn(name = "movimiento_id")}
     )
+    @Column(name="movimientos")
     private Set<Movimiento> movimientos = new HashSet<>();    
 
     private boolean isValid;

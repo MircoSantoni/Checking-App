@@ -54,6 +54,7 @@ public class ComprobanteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     
+    // updatear el estado de un comprobante
     @PostMapping("/cambiar-estado/{id}")
     public ResponseEntity<ResponseComprobanteDto> updateState(@Valid @PathVariable String id ) {
         ResponseComprobanteDto result = comprobanteService.updateIsValid(id);
