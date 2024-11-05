@@ -51,7 +51,10 @@ public class SecurityConfiguration {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         
         corsConfiguration.setAllowedOrigins(List.of(
-            "https://cuenta-proveedores.vercel.app"
+            "https://cuenta-proveedores.vercel.app",
+            "http://localhost:3000/",
+            "http://localhost:8000/"
+
 
         ));
         
