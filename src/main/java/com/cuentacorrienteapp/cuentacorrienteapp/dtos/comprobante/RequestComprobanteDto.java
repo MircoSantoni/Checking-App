@@ -15,5 +15,7 @@ String descripcion,
 Long nroComprobante,
 @NotNull(message ="Colocar la fecha del comprobante es obligatorio ")
 @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "La fecha debe estar en el formato yyyy-MM-dd")
-LocalDate fechaComprobante
+LocalDate fechaComprobante,
+@NotNull(message ="Colocar el monto del comprobante es obligatorio")
+Double montoComprobante
 ) {}

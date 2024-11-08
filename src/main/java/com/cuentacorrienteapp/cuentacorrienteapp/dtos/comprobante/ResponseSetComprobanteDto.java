@@ -11,10 +11,10 @@ import lombok.Builder;
 public record ResponseSetComprobanteDto(
     String id,
     String tipo_comprobante,
+    Double montoComprobante,
     String descripcion,
     Long nroComprobante,
     LocalDateTime fechaAltaComprobante,
     Set<Movimiento> movimiento
-
 
 ) { }

@@ -19,8 +19,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
-@RequiredArgsConstructor
 @Data
+@RequiredArgsConstructor
 @Entity
 @Table(name="comprobantes")
 public class Comprobante {
@@ -34,6 +34,8 @@ public class Comprobante {
 
     private String descripcion;
     
+    private Double montoComprobante;
+
     @Column(name="nro_comprobante")
     private Long nroComprobante;
 
@@ -60,7 +62,6 @@ public class Comprobante {
     public void onCreate() {
         this.fechaAltaComprobante = LocalDateTime.now();
     }
-
 
     public void addMovimiento(Movimiento movimiento) {
         this.movimientos.add(movimiento);

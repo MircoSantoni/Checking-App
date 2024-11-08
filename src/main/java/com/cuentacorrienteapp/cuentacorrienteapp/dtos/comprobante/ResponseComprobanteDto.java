@@ -6,5 +6,6 @@ public record ResponseComprobanteDto(
     String id,
     String tipoComprobante,
     Long nroComprobante,
+    Double montoComprobante,
     LocalDate fechaComprobante
 ) {}
