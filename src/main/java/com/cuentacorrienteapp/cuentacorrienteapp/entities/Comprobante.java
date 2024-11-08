@@ -1,6 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +36,9 @@ public class Comprobante {
     
     @Column(name="nro_comprobante")
     private Long nroComprobante;
+
+    @Column(name="fecha_comprobante")
+    private LocalDate fechaComprobante;
 
     @Column(name="fecha_alta_comprobante")
     private LocalDateTime fechaAltaComprobante;
