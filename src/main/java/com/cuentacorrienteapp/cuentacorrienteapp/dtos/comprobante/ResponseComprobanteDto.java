@@ -7,5 +7,6 @@ public record ResponseComprobanteDto(
     String tipoComprobante,
     Long nroComprobante,
     Double montoComprobante,
-    LocalDate fechaComprobante
+    LocalDate fechaComprobante,
+    Boolean isValid
 ) {}
