@@ -45,8 +45,9 @@ public class CuentaServiceImpl implements CuentaService{
 
         Cuenta nuevaCuenta = cuentaMapper.requestCuentaDtoToCuenta(requestCuentaDto);
         nuevaCuenta.setValid(true);
-        cuentaRepository.save(nuevaCuenta);
         
+        cuentaRepository.save(nuevaCuenta);
+
         return cuentaMapper.cuentaToResponseCuentaDto(nuevaCuenta);
     }
 

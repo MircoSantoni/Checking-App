@@ -61,6 +61,7 @@ public class ComprobantServiceImpl implements ComprobanteService{
                     .nroComprobante(comprobante.getNroComprobante())
                     .fechaAltaComprobante(comprobante.getFechaAltaComprobante())
                     .movimiento(comprobante.getMovimientos())
+                    .isValid(comprobante.isValid())
                     .build())
                 .collect(Collectors.toSet());
         } catch (Exception e) {
@@ -72,6 +73,7 @@ public class ComprobantServiceImpl implements ComprobanteService{
     public ResponseComprobanteDto saveComprobante(RequestComprobanteDto requestComprobanteDto) {
     try {
         Comprobante newComprobante = comprobanteMapper.requestComprobanteDtoToComprobante(requestComprobanteDto);
+        newComprobante.setValid(true);
         Comprobante savedComprobante = comprobanteRepository.save(newComprobante);
         return comprobanteMapper.comprobanteToResponseComprobanteDto(savedComprobante);
     } catch (Exception e) {
