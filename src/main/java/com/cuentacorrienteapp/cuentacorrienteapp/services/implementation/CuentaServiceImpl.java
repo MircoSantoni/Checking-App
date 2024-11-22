@@ -44,9 +44,9 @@ public class CuentaServiceImpl implements CuentaService{
         Cuenta cuenta = cuentaRepository.findByName(requestCuentaDto.name()).orElseThrow(() -> new ResourceAlreadyExistsException("Esta nombre de cuanta ya existe"));
 
         Cuenta nuevaCuenta = cuentaMapper.requestCuentaDtoToCuenta(requestCuentaDto);
-        
+        nuevaCuenta.setValid(true);
         cuentaRepository.save(nuevaCuenta);
-
+        
         return cuentaMapper.cuentaToResponseCuentaDto(nuevaCuenta);
     }
 
