@@ -51,6 +51,8 @@ public class Movimiento {
     @ManyToOne
     @JoinColumn(name = "cuenta_id")
     private Cuenta cuenta;
+
+    private Boolean isValid;
     
     @PrePersist
     protected void onCreate() {
