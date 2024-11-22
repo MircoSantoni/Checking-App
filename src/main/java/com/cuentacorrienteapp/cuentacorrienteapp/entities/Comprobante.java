@@ -1,6 +1,7 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,7 +61,9 @@ public class Comprobante {
 
     @PrePersist
     public void onCreate() {
-        this.fechaAltaComprobante = LocalDateTime.now();
+        ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires");
+        this.fechaAltaComprobante = ZonedDateTime.now(zoneId).toLocalDateTime();
+        System.out.println("Fecha y hora almacenada: " + this.fechaAltaComprobante);
     }
 
     public void addMovimiento(Movimiento movimiento) {
