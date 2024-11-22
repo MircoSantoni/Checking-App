@@ -40,6 +40,12 @@ public class MovimientoController {
         Set<ResponseMovimientoDto> movimientos = movimientoService.findAll();
         return ResponseEntity.ok(movimientos);
     }
+
+    @GetMapping("/ver/{id}")
+    public ResponseEntity<ResponseMovimientoDto> getOne(@PathVariable String id) {
+        ResponseMovimientoDto movimiento = movimientoService.findOne(id);
+        return ResponseEntity.ok(movimiento);
+    }
     
     // crear un movimiento
     @PostMapping("/crear-movimiento")
