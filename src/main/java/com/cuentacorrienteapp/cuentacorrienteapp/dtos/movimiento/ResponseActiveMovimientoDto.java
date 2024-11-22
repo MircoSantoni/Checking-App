@@ -13,5 +13,6 @@ public record ResponseActiveMovimientoDto(
     String medioPago,
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,
+    Boolean isValid,
     Set<Comprobante> comprobantes
 ) { }

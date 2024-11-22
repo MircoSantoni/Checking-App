@@ -15,6 +15,7 @@ public record ResponseSetComprobanteDto(
     String descripcion,
     Long nroComprobante,
     LocalDateTime fechaAltaComprobante,
+    Boolean isValid,
     Set<Movimiento> movimiento
 
 ) { }

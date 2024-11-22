@@ -1,6 +1,5 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public class MovimientoServiceImpl implements MovimientoService{
                 .medioPago(movimiento.getMedioPago())
                 .comentarioMovimiento(movimiento.getComentarioMovimiento())
                 .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento())
-                .fechaBajaMovimiento(movimiento.getFechaBajaMovimiento())
+                .isValid(movimiento.getIsValid())
                 .comprobantes(movimiento.getComprobantes())
                 .build())
                 .collect(Collectors.toSet());
@@ -54,13 +53,14 @@ public class MovimientoServiceImpl implements MovimientoService{
     public Set<ResponseActiveMovimientoDto> findAllActive() {
         try {
             return movimientoRepository.findAll().stream()
-                .filter(movimiento -> movimiento.getFechaBajaMovimiento() == null) 
+                .filter(movimiento -> movimiento.getIsValid() == null) 
                 .<ResponseActiveMovimientoDto>map(movimiento -> ResponseActiveMovimientoDto.builder()
                 .id(movimiento.getId())
                 .importeMovimiento(movimiento.getImporteMovimiento())
                 .medioPago(movimiento.getMedioPago())
                 .comentarioMovimiento(movimiento.getComentarioMovimiento())
                 .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento())
+                .isValid(movimiento.getIsValid())
                 .comprobantes(movimiento.getComprobantes())
                 .build())
                 .collect(Collectors.toSet());
@@ -101,7 +101,7 @@ public class MovimientoServiceImpl implements MovimientoService{
     public ResponseMovimientoDto changeState(String id) {
         Movimiento movimiento = movimientoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No hay ninguna cuenta con ese id"));
 
-        movimiento.setFechaBajaMovimiento(LocalDateTime.now());
+        movimiento.setIsValid(!movimiento.getIsValid());
         movimientoRepository.save(movimiento);
 
         return movimientoMapper.movimientoToResponseMovimientoDto(movimiento);
