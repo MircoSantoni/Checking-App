@@ -1,7 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 

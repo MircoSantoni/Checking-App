@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.ResponseComprobanteDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
@@ -67,6 +68,13 @@ public class MovimientoServiceImpl implements MovimientoService{
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener los movimientos", e);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseMovimientoDto findOne(String id) {
+        Movimiento movimiento = movimientoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Este movimiento no existe"));
+        return movimientoMapper.movimientoToResponseMovimientoDto(movimiento);
     }
 
     @Override

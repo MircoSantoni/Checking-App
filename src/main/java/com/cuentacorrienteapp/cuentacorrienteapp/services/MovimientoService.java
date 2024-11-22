@@ -9,6 +9,8 @@ public interface MovimientoService {
     
     Set<ResponseActiveMovimientoDto> findAllActive();
 
+    ResponseMovimientoDto findOne(String id);
+
     ResponseCreateMovimientoDto save(RequestCreateMovimientoDto requestCreateMovimientoDto);
 
     ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto);
