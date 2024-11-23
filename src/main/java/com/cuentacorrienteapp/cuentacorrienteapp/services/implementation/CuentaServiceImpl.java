@@ -40,11 +40,12 @@ public class CuentaServiceImpl implements CuentaService{
     @Override
     @Transactional 
     public ResponseCuentaDto save(RequestCuentaDto requestCuentaDto) {
-        Cuenta cuenta = cuentaRepository.findByName(requestCuentaDto.name()).orElseThrow(() -> new ResourceAlreadyExistsException("Esta nombre de cuanta ya existe"));
+        if (requestCuentaDto == null) {
+            throw new IllegalArgumentException("El request no puede ser null");
+        }
 
         Cuenta nuevaCuenta = cuentaMapper.requestCuentaDtoToCuenta(requestCuentaDto);
         nuevaCuenta.setValid(true);
-        
         cuentaRepository.save(nuevaCuenta);
 
         return cuentaMapper.cuentaToResponseCuentaDto(nuevaCuenta);
