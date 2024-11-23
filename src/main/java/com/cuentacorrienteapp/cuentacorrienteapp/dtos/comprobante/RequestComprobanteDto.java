@@ -18,5 +18,7 @@ Long nroComprobante,
 @ValidFecha
 LocalDate fechaComprobante,
 @NotNull(message ="Colocar el monto del comprobante es obligatorio")
-Double montoComprobante
+Double montoComprobante,
+@NotNull
+String movimientoId
 ) {}

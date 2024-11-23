@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class CuentaController {
 
     private final CuentaService cuentaService;
-    
-
 
     @GetMapping("/ver-cuentas")
     public ResponseEntity<List<ResponseCuentaDto>> viewCuentas() {

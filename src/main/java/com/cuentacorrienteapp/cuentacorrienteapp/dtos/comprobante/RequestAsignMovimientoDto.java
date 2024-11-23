@@ -1,6 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante;
 
-public record ResponseAsignComprobanteDto(
+public record RequestAsignMovimientoDto(
     String idComprobante,
     String idMovimiento
-    ) { }
+) { }

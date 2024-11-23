@@ -63,8 +63,8 @@ public class ComprobanteController {
     
     // asignar un comprobante a un movimiento
     @PostMapping("/asignar-comprobante")
-    public ResponseEntity<ResponseAsignComprobanteDto> setMovimiento(@Valid @RequestBody RequestAsignComprobanteDto requestAsignComprobanteDto) {
-        ResponseAsignComprobanteDto result = comprobanteService.asignMovimiento(requestAsignComprobanteDto);
+    public ResponseEntity<ResponseAsignMovimientoDto> setMovimiento(@Valid @RequestBody RequestAsignMovimientoDto requestAsignMovimientoDto) {
+        ResponseAsignMovimientoDto result = comprobanteService.asignMovimiento(requestAsignMovimientoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }

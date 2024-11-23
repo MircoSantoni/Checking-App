@@ -18,4 +18,6 @@ public interface ComprobanteMapper {
    ResponseAsignComprobanteDto comprobanteToResponseAsignComprobanteDto(Comprobante comprobante);
 
    ResponseSetComprobanteDto comprobanteToResponseSetComprobanteDto (Comprobante comprobante);
+
+   ResponseAsignMovimientoDto comprobanteToResponseAsignMovimientoDto (Comprobante comprobante);
 }

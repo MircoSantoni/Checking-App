@@ -2,6 +2,7 @@ package com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 
 import lombok.Builder;
@@ -13,6 +14,7 @@ public record ResponseMovimientoDto(
     String medioPago,
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,
-    Boolean isValid,
-    Set<Comprobante> comprobantes
-) { }
+    String cuentaId,
+    Set<Comprobante> comprobantes,
+    Boolean isValid
+    ) { }
