@@ -1,6 +1,9 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services;
 
 import java.util.Set;
+
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.RequestAsignComprobanteDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.ResponseAsignComprobanteDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 
 public interface MovimientoService {
@@ -16,4 +19,6 @@ public interface MovimientoService {
     ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto);
 
     ResponseMovimientoDto changeState(String id);
+
+    ResponseAsignComprobanteDto asignComprobante(RequestAsignComprobanteDto requestAsignComprobanteDto);
 }

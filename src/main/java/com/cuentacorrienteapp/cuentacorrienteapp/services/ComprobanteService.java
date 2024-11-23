@@ -12,5 +12,5 @@ public interface ComprobanteService {
     Set<ResponseComprobanteDto> findByNroComprobante(Long nroComprobante);
     ResponseComprobanteDto saveComprobante (RequestComprobanteDto requestComprobanteDto);
     ResponseComprobanteDto updateIsValid(String id);
-    ResponseAsignComprobanteDto asignMovimiento(RequestAsignComprobanteDto requestAsignComprobanteDto);
+    ResponseAsignMovimientoDto asignMovimiento(RequestAsignMovimientoDto requestAsignMovimientoDto);
 }

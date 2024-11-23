@@ -2,7 +2,7 @@ package com.cuentacorrienteapp.cuentacorrienteapp.mappers;
 
 import org.mapstruct.Mapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
-
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.ResponseAsignComprobanteDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 
 @Mapper(componentModel = "spring")
@@ -18,4 +18,6 @@ public interface MovimientoMapper {
     ResponsePutMovCuentaDto movimientoToResponsePutMovCuentaDto(Movimiento movimiento);
 
     ResponseMovimientoDto movimientoToResponseMovimientoDto(Movimiento movimiento);
+
+    ResponseAsignComprobanteDto movimientoToResponseAsignComprobanteDto(Movimiento movimiento);
 }

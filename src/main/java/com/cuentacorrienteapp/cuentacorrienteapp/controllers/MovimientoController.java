@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.RequestAsignComprobanteDto;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.ResponseAsignComprobanteDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
 
@@ -63,9 +65,15 @@ public class MovimientoController {
     
     // cambiar estado
     @PostMapping("/cambiar-estado/{id}")
-    public ResponseEntity<?> asignCuenta(@PathVariable String id) {
+    public ResponseEntity<ResponseMovimientoDto> asignCuenta(@PathVariable String id) {
         ResponseMovimientoDto result = movimientoService.changeState(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @PostMapping("/asignar-comprobante")
+    public ResponseEntity<ResponseAsignComprobanteDto> asignComprobante (RequestAsignComprobanteDto requestAsignComprobanteDto) {
+        ResponseAsignComprobanteDto responseAsignComprobanteDto = movimientoService.asignComprobante(requestAsignComprobanteDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseAsignComprobanteDto);
     }
 
 }

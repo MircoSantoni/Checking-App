@@ -8,5 +8,8 @@ public record RequestCreateMovimientoDto(
     @NotNull
     String medioPago,
     @NotNull
-    String comentarioMovimiento
+    String comentarioMovimiento,
+    @NotNull
+    String cuentaId
+
     ) {}

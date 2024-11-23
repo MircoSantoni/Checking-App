@@ -14,5 +14,6 @@ public record ResponseActiveMovimientoDto(
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,
     Boolean isValid,
+    String cuentaId,
     Set<Comprobante> comprobantes
 ) { }
