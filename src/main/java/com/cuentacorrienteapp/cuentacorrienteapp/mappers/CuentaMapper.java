@@ -10,10 +10,16 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel="spring")
 public interface CuentaMapper {
     Cuenta responseCuentaDtoToCuenta (ResponseCuentaDto responseCuentaDto);
-    ResponseCuentaDto cuentaToResponseCuentaDto(Cuenta cuenta);
 
-    Cuenta requestCuentaDtoToCuenta (RequestCuentaDto requestCuentaDto);
     RequestCuentaDto cuentaToRequestCuentaDto (Cuenta cuenta);
+
+        // Mapea la entidad Cuenta a ResponseCuentaDto
+        ResponseCuentaDto cuentaToResponseCuentaDto(Cuenta cuenta);
+    
+        // Mapea el DTO a la entidad Cuenta
+        Cuenta requestCuentaDtoToCuenta(RequestCuentaDto requestCuentaDto);
+         
+        ResponseUpdateIsValidDto cuentaToResponseUpdateIsValidDto(Cuenta cuenta);
 
     List<ResponseCuentaDto> listCuentaToListResponseCuentaDto(List<Cuenta> cuentaList);
     

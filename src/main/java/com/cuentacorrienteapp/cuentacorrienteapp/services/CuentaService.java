@@ -9,6 +9,6 @@ public interface CuentaService {
     List<ResponseCuentaDto> findAll();
     ResponseCuentaDto findById(String id);
     ResponseCuentaDto save(RequestCuentaDto requestCuentaDto);
-    ResponseCuentaDto updateIsValid(String id);
+    ResponseUpdateIsValidDto updateIsValid(String id);
 
 }

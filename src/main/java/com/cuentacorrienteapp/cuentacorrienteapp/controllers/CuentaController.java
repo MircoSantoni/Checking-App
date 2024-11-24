@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
+
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
 import jakarta.validation.Valid;
@@ -16,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/cuentas")
@@ -43,13 +43,10 @@ public class CuentaController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/cambiar-estado/{idCuenta}")
-    public ResponseEntity<ResponseCuentaDto> changeState( @PathVariable String idCuenta) {
-        ResponseCuentaDto result = cuentaService.updateIsValid(idCuenta);
+    @PostMapping("/cambiar-estado/{idCuenta}")
+    public ResponseEntity<ResponseUpdateIsValidDto> changeState( @PathVariable String idCuenta) {
+        ResponseUpdateIsValidDto result = cuentaService.updateIsValid(idCuenta);
         return ResponseEntity.ok(result);
     }
-
-
-    //modificar datos de una cuenta de proveedors
 
 }

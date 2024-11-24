@@ -1,13 +1,16 @@
     package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
+import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.ResponseUpdateIsValidDto;
+
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
-import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceAlreadyExistsException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.CuentaMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
@@ -19,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CuentaServiceImpl implements CuentaService{
 
-    
+
     private final CuentaRepository cuentaRepository;
     private final CuentaMapper cuentaMapper;
 
@@ -45,7 +48,7 @@ public class CuentaServiceImpl implements CuentaService{
         }
 
         Cuenta nuevaCuenta = cuentaMapper.requestCuentaDtoToCuenta(requestCuentaDto);
-        nuevaCuenta.setValid(true);
+        nuevaCuenta.setIsValid(true);
         cuentaRepository.save(nuevaCuenta);
 
         return cuentaMapper.cuentaToResponseCuentaDto(nuevaCuenta);
@@ -53,13 +56,22 @@ public class CuentaServiceImpl implements CuentaService{
 
     @Override
     @Transactional
-    public ResponseCuentaDto updateIsValid(String id) {
-        Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
+    public ResponseUpdateIsValidDto updateIsValid(String id) {
+        Cuenta cuenta = cuentaRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
+    
+        cuenta.setIsValid(!cuenta.isValid());
 
-        cuenta.setValid(!cuenta.isValid());
+        if (!cuenta.isValid()) {
+            ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires");
+            cuenta.setFechaBajaLogicaCuenta(ZonedDateTime.now(zoneId).toLocalDateTime());
+        } else {
+            cuenta.setFechaBajaLogicaCuenta(null);
+        }
+    
         cuentaRepository.save(cuenta);
 
-        return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
+        return cuentaMapper.cuentaToResponseUpdateIsValidDto(cuenta);
     }
 
 }

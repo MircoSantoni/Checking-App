@@ -1,5 +1,6 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,8 @@ public class Cuenta {
     @Column(name="direccion_proveedor")
     private String direccionProveedor;
 
+    private LocalDateTime fechaBajaLogicaCuenta;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cuenta")
     private Set<Movimiento> movimientos = new HashSet<>();
 
@@ -53,4 +56,9 @@ public class Cuenta {
         movimientos.remove(movimiento);
         movimiento.setCuenta(null);
     }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
+    
 }
