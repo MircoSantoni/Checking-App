@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.*;
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.ComprobanteMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.ComprobanteRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
@@ -76,14 +77,11 @@ public class ComprobanteServiceImpl implements ComprobanteService {
     public ResponseComprobanteDto saveComprobante(RequestComprobanteDto requestComprobanteDto) {
         try {
             Comprobante newComprobante = comprobanteMapper.requestComprobanteDtoToComprobante(requestComprobanteDto);
+            Movimiento existingMovimiento = movimientoRepository.findById(requestComprobanteDto.movimientoId()).orElseThrow(() -> new ResourceNotFoundException("Error al buscar el movimiento de este comprobante"));
+
             newComprobante.setValid(true);
-            
-            // Si se proporciona un movimiento, lo validamos y asignamos
-            if (requestComprobanteDto.movimientoId() != null) {
-                Movimiento movimiento = movimientoRepository.findById(requestComprobanteDto.movimientoId())
-                    .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
-                newComprobante.setMovimiento(movimiento);
-            }
+            newComprobante.setMovimiento(existingMovimiento);
+
             
             Comprobante savedComprobante = comprobanteRepository.save(newComprobante);
             return comprobanteMapper.comprobanteToResponseComprobanteDto(savedComprobante);
