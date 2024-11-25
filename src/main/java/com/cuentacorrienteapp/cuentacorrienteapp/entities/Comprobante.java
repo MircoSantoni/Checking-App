@@ -2,6 +2,8 @@ package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
 import java.time.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +39,7 @@ public class Comprobante {
     private LocalDateTime fechaBajaComprobante;
     
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "movimiento_id")
     private Movimiento movimiento;
     

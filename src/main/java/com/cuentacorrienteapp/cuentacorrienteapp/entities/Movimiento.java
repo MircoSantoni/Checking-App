@@ -4,17 +4,19 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
 @Entity
 @Table(name="movimientos")
+@Getter
+@Setter
+@ToString(exclude = {"cuenta", "comprobantes"})
+@EqualsAndHashCode(exclude = {"cuenta", "comprobantes"})
 public class Movimiento {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -36,6 +38,7 @@ public class Movimiento {
     private LocalDateTime fechaBajaMovimiento;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "cuenta_id", nullable = false)
     private Cuenta cuenta;
     
@@ -49,10 +52,8 @@ public class Movimiento {
         this.fechaAltaMovimiento = LocalDateTime.now();
     }
 
-    // Método helper para agregar comprobantes
     public void addComprobante(Comprobante comprobante) {
         comprobantes.add(comprobante);
         comprobante.setMovimiento(this);
     }
-    
 }
