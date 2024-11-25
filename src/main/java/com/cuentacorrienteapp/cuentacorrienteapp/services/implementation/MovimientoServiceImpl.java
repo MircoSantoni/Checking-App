@@ -104,21 +104,6 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     @Transactional
-    public ResponsePutMovCuentaDto putCuenta(RequestPutMovCuentaDto requestPutMovCuentaDto) {
-        Movimiento movimiento = movimientoRepository.findById(requestPutMovCuentaDto.id_movimiento())
-            .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
-        
-        Cuenta cuenta = cuentaRepository.findById(requestPutMovCuentaDto.id_cuenta())
-            .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada"));
-
-        movimiento.setCuenta(cuenta);
-        movimientoRepository.save(movimiento);
-
-        return movimientoMapper.movimientoToResponsePutMovCuentaDto(movimiento);
-    }
-
-    @Override
-    @Transactional
     public ResponseMovimientoDto changeState(String id) {
         Movimiento movimiento = movimientoRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
@@ -134,21 +119,4 @@ public class MovimientoServiceImpl implements MovimientoService {
         return movimientoMapper.movimientoToResponseMovimientoDto(movimiento);
     }
 
-    @Override
-    @Transactional
-    public ResponseAsignComprobanteDto asignComprobante(RequestAsignComprobanteDto request) {
-        Movimiento movimiento = movimientoRepository.findById(request.idMovimiento())
-            .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
-            
-        Comprobante comprobante = comprobanteRepository.findById(request.idComprobante())
-            .orElseThrow(() -> new EntityNotFoundException("Comprobante no encontrado"));
-
-        try {
-            movimiento.addComprobante(comprobante);
-            movimientoRepository.save(movimiento);
-            return movimientoMapper.movimientoToResponseAsignComprobanteDto(movimiento);
-        } catch (Exception ex) {
-            throw new RuntimeException("Error al asignar comprobante al movimiento", ex);
-        }
-    }
 }

@@ -12,8 +12,6 @@ import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
-import io.micrometer.core.ipc.http.HttpSender.Request;
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

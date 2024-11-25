@@ -63,6 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            System.out.println(exception);
             response.getWriter().write("Token verification failed");
         }
     }
