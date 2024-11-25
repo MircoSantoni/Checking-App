@@ -50,10 +50,25 @@ public class CuentaServiceImpl implements CuentaService{
     }
 
     @Override
-    @Transactional( readOnly = true)
+    @Transactional(readOnly = true)
     public ResponseCuentaDto findById(String id) {
-        Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
-        return cuentaMapper.cuentaToResponseCuentaDto(cuenta);
+        try {
+            return cuentaRepository.findById(id)
+                .map(cuenta -> ResponseCuentaDto.builder()
+                    .id(cuenta.getId())
+                    .saldo(cuenta.getSaldo())
+                    .name(cuenta.getName())
+                    .nombreProveedor(cuenta.getNombreProveedor())
+                    .numeroCelular(cuenta.getNumeroCelular()) 
+                    .emailProveedor(cuenta.getEmailProveedor())
+                    .direccionProveedor(cuenta.getDireccionProveedor())
+                    .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
+                    .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() : null)
+                    .build())
+                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada con ID: " + id));
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al buscar la cuenta con ID: " + id, ex);
+        }
     }
 
     @Override
