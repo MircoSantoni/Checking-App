@@ -11,13 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
-import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.CuentaMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -94,37 +92,26 @@ public class CuentaServiceImpl implements CuentaService{
 
     @Transactional
     public ResponseAddMovimientoDto addMovimientoToCuenta(RequestAddMovimientoDto requestAddMovimientoDto) {
-        // Buscar la cuenta
-        Cuenta cuenta = cuentaRepository.findById(requestAddMovimientoDto.cuentaId())
-            .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+        Cuenta cuenta = cuentaRepository.findById(requestAddMovimientoDto.cuentaId()).orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
     
-        // Verificar si la cuenta es válida
         if (!cuenta.isValid()) {
             throw new IllegalStateException("No se pueden añadir movimientos a una cuenta inactiva");
         }
     
-        // Buscar el movimiento existente
-        Movimiento movimiento = movimientoRepository.findById(requestAddMovimientoDto.movimientoId())
-            .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+        Movimiento movimiento = movimientoRepository.findById(requestAddMovimientoDto.movimientoId()).orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
     
-        // Verificar que el movimiento no esté ya asociado a otra cuenta
         if (movimiento.getCuenta() != null) {
             throw new IllegalStateException("El movimiento ya está asociado a una cuenta");
         }
     
-        // Establecer el estado del movimiento
         movimiento.setIsValid(true);
     
-        // Actualizar el saldo de la cuenta
         cuenta.setSaldo(cuenta.getSaldo() + movimiento.getImporteMovimiento());
         
-        // Agregar el movimiento a la cuenta usando el método helper
         cuenta.addMovimiento(movimiento);
     
-        // Guardar la cuenta actualizada
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
     
-        // Retornar el DTO de respuesta
         return cuentaMapper.cuentaToResponseAddMovimientoDto(cuentaActualizada);
     }
 

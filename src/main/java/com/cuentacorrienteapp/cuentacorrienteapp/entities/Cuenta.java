@@ -49,4 +49,7 @@ public class Cuenta {
         movimientos.remove(movimiento);
         movimiento.setCuenta(null);
     }
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
 }
