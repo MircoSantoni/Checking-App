@@ -6,15 +6,15 @@ import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@RequiredArgsConstructor
 @Entity
 @Table(name="movimientos")
-@Getter
-@Setter
-@ToString(exclude = {"cuenta", "comprobantes"})
-@EqualsAndHashCode(exclude = {"cuenta", "comprobantes"})
 public class Movimiento {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -49,8 +49,10 @@ public class Movimiento {
         this.fechaAltaMovimiento = LocalDateTime.now();
     }
 
+    // Método helper para agregar comprobantes
     public void addComprobante(Comprobante comprobante) {
         comprobantes.add(comprobante);
         comprobante.setMovimiento(this);
     }
+    
 }

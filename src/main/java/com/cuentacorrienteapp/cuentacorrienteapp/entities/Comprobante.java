@@ -3,13 +3,14 @@ package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 import java.time.*;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
 @Entity
 @Table(name="comprobantes")
+@Getter
+@Setter
+@ToString(exclude = "movimiento")
+@EqualsAndHashCode(exclude = "movimiento")
 public class Comprobante {
     
     @Id
