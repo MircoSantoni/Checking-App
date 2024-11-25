@@ -20,4 +20,6 @@ public interface MovimientoMapper {
     ResponseMovimientoDto movimientoToResponseMovimientoDto(Movimiento movimiento);
 
     ResponseAsignComprobanteDto movimientoToResponseAsignComprobanteDto(Movimiento movimiento);
+
+    ResponseUpdateMovimientoStateDto movimientoToResponseUpdateMovimientoStateDto (Movimiento movimiento);
 }

@@ -56,8 +56,8 @@ public class MovimientoController {
     
     // cambiar estado
     @PostMapping("/cambiar-estado/{id}")
-    public ResponseEntity<ResponseMovimientoDto> asignCuenta(@PathVariable String id) {
-        ResponseMovimientoDto result = movimientoService.changeState(id);
+    public ResponseEntity<ResponseUpdateMovimientoStateDto> asignCuenta(@PathVariable String id) {
+        ResponseUpdateMovimientoStateDto result = movimientoService.changeState(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

@@ -1,20 +1,17 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.RequestAsignComprobanteDto;
-import com.cuentacorrienteapp.cuentacorrienteapp.dtos.comprobante.ResponseAsignComprobanteDto;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
-import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.MovimientoMapper;
-import com.cuentacorrienteapp.cuentacorrienteapp.repositories.ComprobanteRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.services.MovimientoService;
@@ -28,7 +25,6 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     private final MovimientoRepository movimientoRepository;
     private final CuentaRepository cuentaRepository;
-    private final ComprobanteRepository comprobanteRepository;
     private final MovimientoMapper movimientoMapper;
 
     @Override
@@ -104,19 +100,20 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     @Transactional
-    public ResponseMovimientoDto changeState(String id) {
+    public ResponseUpdateMovimientoStateDto changeState(String id) {
         Movimiento movimiento = movimientoRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
 
         movimiento.setIsValid(!movimiento.getIsValid());
         if (!movimiento.getIsValid()) {
-            movimiento.setFechaBajaMovimiento(LocalDateTime.now());
+            ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires");
+            movimiento.setFechaBajaMovimiento(ZonedDateTime.now(zoneId).toLocalDateTime());
         } else {
             movimiento.setFechaBajaMovimiento(null);
         }
         
         movimientoRepository.save(movimiento);
-        return movimientoMapper.movimientoToResponseMovimientoDto(movimiento);
+        return movimientoMapper.movimientoToResponseUpdateMovimientoStateDto(movimiento);
     }
 
 }
