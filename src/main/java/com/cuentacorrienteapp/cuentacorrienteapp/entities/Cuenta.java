@@ -4,23 +4,16 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
 @Entity
 @Table(name="cuentas")
+@Getter
+@Setter
+@ToString(exclude = "movimientos")
+@EqualsAndHashCode(exclude = "movimientos")
 public class Cuenta {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -56,9 +49,4 @@ public class Cuenta {
         movimientos.remove(movimiento);
         movimiento.setCuenta(null);
     }
-
-    public void setIsValid(boolean isValid) {
-        this.isValid = isValid;
-    }
-    
 }

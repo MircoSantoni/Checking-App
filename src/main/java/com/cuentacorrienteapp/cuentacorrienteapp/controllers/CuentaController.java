@@ -12,6 +12,8 @@ import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.services.CuentaService;
 
+import io.micrometer.core.ipc.http.HttpSender.Request;
+import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +28,8 @@ public class CuentaController {
     private final CuentaService cuentaService;
 
     @GetMapping("/ver-cuentas")
-    public ResponseEntity<List<ResponseCuentaDto>> viewCuentas() {
-        List<ResponseCuentaDto> result = cuentaService.findAll();
+    public ResponseEntity<Set<ResponseCuentaDto>> viewCuentas() {
+        Set<ResponseCuentaDto> result = cuentaService.findAll();
         return ResponseEntity.ok(result);
     }
     
@@ -48,5 +50,13 @@ public class CuentaController {
         ResponseUpdateIsValidDto result = cuentaService.updateIsValid(idCuenta);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/añadir-movimiento")
+    public ResponseEntity<ResponseAddMovimientoDto> addMovimiento(@RequestBody RequestAddMovimientoDto requestAddMovimientoDto) {
+        ResponseAddMovimientoDto result = cuentaService.addMovimientoToCuenta(requestAddMovimientoDto);
+        System.out.println(requestAddMovimientoDto);
+        return ResponseEntity.ok(result);
+    }
+    
 
 }

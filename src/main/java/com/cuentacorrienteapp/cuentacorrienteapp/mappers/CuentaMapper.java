@@ -22,5 +22,9 @@ public interface CuentaMapper {
         ResponseUpdateIsValidDto cuentaToResponseUpdateIsValidDto(Cuenta cuenta);
 
     List<ResponseCuentaDto> listCuentaToListResponseCuentaDto(List<Cuenta> cuentaList);
+
+    Cuenta requestAddMovimientoDtoToCuenta (RequestAddMovimientoDto requestAddMovimientoDto);
+
+    ResponseAddMovimientoDto cuentaToResponseAddMovimientoDto (Cuenta cuenta);
     
 }
