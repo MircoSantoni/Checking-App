@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.enums.MedioPago;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -25,7 +26,8 @@ public class Movimiento {
     private Long importeMovimiento;
     
     @Column(name="medio_pago")
-    private String medioPago;
+    @Enumerated(EnumType.STRING)
+    private MedioPago medioPago;
     
     @NotEmpty
     @Column(name="comentario_movimiento")

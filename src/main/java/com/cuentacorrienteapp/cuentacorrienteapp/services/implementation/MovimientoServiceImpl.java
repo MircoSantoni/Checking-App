@@ -80,19 +80,17 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     @Transactional
-    public ResponseCreateMovimientoDto save(RequestCreateMovimientoDto request) {
-        if (request == null) {
+    public ResponseCreateMovimientoDto save(RequestCreateMovimientoDto requestCreateMovimientoDto) {
+        if (requestCreateMovimientoDto == null) {
             throw new IllegalArgumentException("El request no puede ser null");
         }
 
-        Movimiento movimiento = movimientoMapper.requestCreateMovimientoDtoToMovimiento(request);
-        
-        if (request.cuentaId() != null) {
-            Cuenta cuenta = cuentaRepository.findById(request.cuentaId())
+        Movimiento movimiento = movimientoMapper.requestCreateMovimientoDtoToMovimiento(requestCreateMovimientoDto);
+
+        Cuenta cuenta = cuentaRepository.findById(requestCreateMovimientoDto.cuentaId())
                 .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada"));
-            movimiento.setCuenta(cuenta);
-        }
-        
+        movimiento.setCuenta(cuenta);
+
         movimiento.setIsValid(true);
         Movimiento savedMovimiento = movimientoRepository.save(movimiento);
         return movimientoMapper.movimientoToResponseCreateMovimientoDto(savedMovimiento);

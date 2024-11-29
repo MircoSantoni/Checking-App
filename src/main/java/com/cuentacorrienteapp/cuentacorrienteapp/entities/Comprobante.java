@@ -2,6 +2,7 @@ package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
 import java.time.*;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.enums.TipoComprobante;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -20,7 +21,8 @@ public class Comprobante {
     private String id;
     
     @Column(name="tipo_comprobante")
-    private String tipoComprobante;
+    @Enumerated(EnumType.STRING)
+    private TipoComprobante tipoComprobante;
     
     private String descripcion;
     

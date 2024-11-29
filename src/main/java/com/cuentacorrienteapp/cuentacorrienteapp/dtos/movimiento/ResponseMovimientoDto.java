@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
+import com.cuentacorrienteapp.cuentacorrienteapp.enums.MedioPago;
 
 import lombok.Builder;
 
@@ -11,7 +12,7 @@ import lombok.Builder;
 public record ResponseMovimientoDto(
     String id, 
     Long importeMovimiento,
-    String medioPago,
+    MedioPago medioPago,
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,
     String cuentaId,
