@@ -29,11 +29,12 @@ public class SecurityConfiguration {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/autenticacion/**",
-                "/error",
-                "/swagger-ui/**",
-                "/v3/api-docs/**",
-                "/swagger-ui.html")
+                // .requestMatchers("/api/autenticacion/**",
+                // "/error",
+                // "/swagger-ui/**",
+                // "/v3/api-docs/**",
+                // "/swagger-ui.html")
+                    .requestMatchers("*")
                 .permitAll()
                 .anyRequest().authenticated()
             )
