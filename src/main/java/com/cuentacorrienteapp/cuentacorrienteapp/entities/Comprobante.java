@@ -1,6 +1,7 @@
 package com.cuentacorrienteapp.cuentacorrienteapp.entities;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.enums.TipoComprobante;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,6 +16,9 @@ import lombok.*;
 @ToString(exclude = "movimiento")
 @EqualsAndHashCode(exclude = "movimiento")
 public class Comprobante {
+    
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

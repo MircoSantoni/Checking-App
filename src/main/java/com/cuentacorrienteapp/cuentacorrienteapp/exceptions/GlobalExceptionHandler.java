@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidUserCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidUserCredentialsException(InvalidUserCredentialsException ex) {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
-    }           
+    }
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<ErrorResponse> handleInvalidDataException(InvalidDataException ex) {
@@ -34,12 +34,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceiption(ValidationException ex) {
-    return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
-}
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(MethodArgumentNotValidException ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(MontException.class)
+    private ResponseEntity<ErrorResponse> handleMontException(MontException ex) {
+        return  buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -53,7 +58,6 @@ public class GlobalExceptionHandler {
         String errorMessage = String.join(", ", errors);
         return buildErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
     }
-
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status, String message) {
         ErrorResponse errorResponse = new ErrorResponse(status.value(), message);

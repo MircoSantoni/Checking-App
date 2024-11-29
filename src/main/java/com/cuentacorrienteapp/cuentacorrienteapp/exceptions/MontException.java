@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ValidationException extends RuntimeException{
-    public ValidationException(String message) {
-        super(message);
-    }}
+public class MontException extends RuntimeException{
+    private String message;
+}

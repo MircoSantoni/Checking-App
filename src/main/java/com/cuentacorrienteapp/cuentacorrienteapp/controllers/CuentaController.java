@@ -49,12 +49,5 @@ public class CuentaController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/añadir-movimiento")
-    public ResponseEntity<ResponseAddMovimientoDto> addMovimiento(@RequestBody RequestAddMovimientoDto requestAddMovimientoDto) {
-        ResponseAddMovimientoDto result = cuentaService.addMovimientoToCuenta(requestAddMovimientoDto);
-        System.out.println(requestAddMovimientoDto);
-        return ResponseEntity.ok(result);
-    }
-    
 
 }
