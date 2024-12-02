@@ -157,7 +157,6 @@ public class CuentaServiceImpl implements CuentaService{
     
                 if (totalComprobantes != movimiento.getImporteMovimiento()) {
                     cuenta.setEstadoCuenta(EstadoCuenta.PENDIENTE);
-                    cuenta.setIsValid(false);
                     isPending = true;
                     break;
                 }

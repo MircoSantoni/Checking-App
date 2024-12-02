@@ -2,6 +2,7 @@ package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.movimiento.*;
+import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.MovimientoMapper;
@@ -37,6 +39,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                 .<ResponseMovimientoDto>map(movimiento -> ResponseMovimientoDto.builder()
                     .id(movimiento.getId())
                     .importeMovimiento(movimiento.getImporteMovimiento())
+                    .importeImpago(movimiento.getImporteImpago())
                     .medioPago(movimiento.getMedioPago())
                     .comentarioMovimiento(movimiento.getComentarioMovimiento())
                     .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento().atZone(zoneId).toLocalDateTime())

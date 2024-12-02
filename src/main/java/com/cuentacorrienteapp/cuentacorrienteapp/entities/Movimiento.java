@@ -24,6 +24,9 @@ public class Movimiento {
     
     @Column(name="importe_movimiento")
     private Long importeMovimiento;
+
+    @Column(name="importe_impago")
+    private Long importeImpago;
     
     @Column(name="medio_pago")
     @Enumerated(EnumType.STRING)
@@ -48,14 +51,25 @@ public class Movimiento {
     private Set<Comprobante> comprobantes = new HashSet<>();
     
     private Boolean isValid;
-    
-    // @PrePersist
-    // protected void onCreate() {
-    //     this.fechaAltaMovimiento = LocalDateTime.now();
-    // }
 
     public void addComprobante(Comprobante comprobante) {
         comprobantes.add(comprobante);
         comprobante.setMovimiento(this);
     }
+
+    @PrePersist
+    @PreUpdate
+    @PostLoad
+    public void onPersistOrUpdate() {
+        actualizarImporteImpago();
+    }
+
+    public void actualizarImporteImpago() {
+        double totalPagado = comprobantes.stream()
+                                          .filter(Comprobante::isValid)
+                                          .mapToDouble(Comprobante::getMontoComprobante)
+                                          .sum();
+        this.importeImpago = Math.max(0, this.importeMovimiento - (long) totalPagado);
+    }
+    
 }
