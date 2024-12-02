@@ -22,4 +22,8 @@ public interface MovimientoMapper {
     ResponseAsignComprobanteDto movimientoToResponseAsignComprobanteDto(Movimiento movimiento);
 
     ResponseUpdateMovimientoStateDto movimientoToResponseUpdateMovimientoStateDto (Movimiento movimiento);
+
+    Movimiento requestImporteDtoToMovimiento (RequestImporteDto requestImporteDto);
+    ResponseImporteDto movimientoToResponseImporteDto(Movimiento movimiento);
+
 }

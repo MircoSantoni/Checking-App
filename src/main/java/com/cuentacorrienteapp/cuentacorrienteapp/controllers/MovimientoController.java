@@ -61,5 +61,17 @@ public class MovimientoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    // cambiar datos de importe pagado
+    @PostMapping("/importe-sumar")
+    public ResponseEntity<ResponseImporteDto> sumarImporte( @RequestBody RequestImporteDto requestImporteDto) {
+        ResponseImporteDto responseImporteDto = movimientoService.addImporte(requestImporteDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseImporteDto);
+    }
+
+    @PostMapping("/importe-restar")
+    public ResponseEntity<ResponseImporteDto> restarImporte( @RequestBody RequestImporteDto requestImporteDto) {
+        ResponseImporteDto responseImporteDto = movimientoService.restImporte(requestImporteDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseImporteDto);
+    }
 
 }

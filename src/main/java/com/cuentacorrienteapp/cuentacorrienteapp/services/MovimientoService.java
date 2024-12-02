@@ -15,4 +15,8 @@ public interface MovimientoService {
     ResponseCreateMovimientoDto save(RequestCreateMovimientoDto requestCreateMovimientoDto);
 
     ResponseUpdateMovimientoStateDto changeState(String id);
+
+    ResponseImporteDto addImporte(RequestImporteDto requestImporteDto);
+
+    ResponseImporteDto restImporte(RequestImporteDto requestImporteDto);
 }

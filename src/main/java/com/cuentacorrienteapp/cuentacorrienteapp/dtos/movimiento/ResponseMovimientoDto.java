@@ -12,7 +12,7 @@ import lombok.Builder;
 public record ResponseMovimientoDto(
     String id, 
     Long importeMovimiento,
-    Long importeImpago,
+    Long importePagado,
     MedioPago medioPago,
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,
