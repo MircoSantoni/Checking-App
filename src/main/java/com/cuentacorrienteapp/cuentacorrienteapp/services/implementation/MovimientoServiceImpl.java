@@ -27,6 +27,8 @@ public class MovimientoServiceImpl implements MovimientoService {
     private final CuentaRepository cuentaRepository;
     private final MovimientoMapper movimientoMapper;
 
+    ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires");
+
     @Override
     @Transactional(readOnly = true)
     public Set<ResponseMovimientoDto> findAll() {
@@ -37,7 +39,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                     .importeMovimiento(movimiento.getImporteMovimiento())
                     .medioPago(movimiento.getMedioPago())
                     .comentarioMovimiento(movimiento.getComentarioMovimiento())
-                    .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento())
+                    .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento().atZone(zoneId).toLocalDateTime())
                     .cuentaId(movimiento.getCuenta() != null ? movimiento.getCuenta().getId() : null)
                     .comprobantes(movimiento.getComprobantes())
                     .isValid(movimiento.getIsValid())
@@ -59,7 +61,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                     .importeMovimiento(movimiento.getImporteMovimiento())
                     .medioPago(movimiento.getMedioPago())
                     .comentarioMovimiento(movimiento.getComentarioMovimiento())
-                    .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento())
+                    .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento().atZone(zoneId).toLocalDateTime())
                     .cuentaId(movimiento.getCuenta() != null ? movimiento.getCuenta().getId() : null)
                     .comprobantes(movimiento.getComprobantes())
                     .isValid(movimiento.getIsValid())
@@ -90,8 +92,11 @@ public class MovimientoServiceImpl implements MovimientoService {
         Cuenta cuenta = cuentaRepository.findById(requestCreateMovimientoDto.cuentaId())
                 .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada"));
         movimiento.setCuenta(cuenta);
-
         movimiento.setIsValid(true);
+
+        movimiento.setFechaAltaMovimiento(ZonedDateTime.now(zoneId).toLocalDateTime());
+
+
         Movimiento savedMovimiento = movimientoRepository.save(movimiento);
         return movimientoMapper.movimientoToResponseCreateMovimientoDto(savedMovimiento);
     }

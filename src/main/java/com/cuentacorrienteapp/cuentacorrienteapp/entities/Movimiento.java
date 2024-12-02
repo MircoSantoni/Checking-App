@@ -49,10 +49,10 @@ public class Movimiento {
     
     private Boolean isValid;
     
-    @PrePersist
-    protected void onCreate() {
-        this.fechaAltaMovimiento = LocalDateTime.now();
-    }
+    // @PrePersist
+    // protected void onCreate() {
+    //     this.fechaAltaMovimiento = LocalDateTime.now();
+    // }
 
     public void addComprobante(Comprobante comprobante) {
         comprobantes.add(comprobante);
