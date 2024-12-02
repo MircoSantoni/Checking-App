@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
+import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
 import com.cuentacorrienteapp.cuentacorrienteapp.enums.EstadoCuenta;
+import com.cuentacorrienteapp.cuentacorrienteapp.exceptions.ResourceNotFoundException;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.CuentaMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
@@ -31,6 +33,7 @@ public class CuentaServiceImpl implements CuentaService{
     @Override
     @Transactional( readOnly = true)
     public Set<ResponseCuentaDto> findAll() {
+        checkAccountStatus();
         try {
             return cuentaRepository.findAll().stream()
                 .<ResponseCuentaDto>map(cuenta -> ResponseCuentaDto.builder()
@@ -54,6 +57,7 @@ public class CuentaServiceImpl implements CuentaService{
     @Override
     @Transactional(readOnly = true)
     public ResponseCuentaDto findById(String id) {
+        checkAccountStatus();
         try {
             return cuentaRepository.findById(id)
                 .map(cuenta -> ResponseCuentaDto.builder()
@@ -132,6 +136,42 @@ public class CuentaServiceImpl implements CuentaService{
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
     
         return cuentaMapper.cuentaToResponseAddMovimientoDto(cuentaActualizada);
+    }
+
+    @Override
+    @Transactional
+    public void checkAccountStatus() {
+    
+        // Obtener todas las cuentas
+        List<Cuenta> cuentasList = cuentaRepository.findAll();
+    
+        // Procesar cada cuenta
+        for (Cuenta cuenta : cuentasList) {
+            boolean isPending = false;
+    
+            // Validar los movimientos de la cuenta
+            for (Movimiento movimiento : cuenta.getMovimientos()) {
+                double totalComprobantes = movimiento.getComprobantes().stream()
+                    .mapToDouble(Comprobante::getMontoComprobante)
+                    .sum();
+    
+                if (totalComprobantes != movimiento.getImporteMovimiento()) {
+                    cuenta.setEstadoCuenta(EstadoCuenta.PENDIENTE);
+                    cuenta.setIsValid(false);
+                    isPending = true;
+                    break;
+                }
+            }
+    
+            // Si no se encontró discrepancia, marcamos como CANCELADA
+            if (!isPending) {
+                cuenta.setEstadoCuenta(EstadoCuenta.CANCELADA);
+                cuenta.setIsValid(true);
+            }
+    
+            // Guardar los cambios en la base de datos
+            cuentaRepository.save(cuenta);
+        }
     }
 
 

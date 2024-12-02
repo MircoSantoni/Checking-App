@@ -11,5 +11,6 @@ public interface CuentaService {
     ResponseCuentaDto save(RequestCuentaDto requestCuentaDto);
     ResponseUpdateIsValidDto updateIsValid(String id);
     ResponseAddMovimientoDto addMovimientoToCuenta(RequestAddMovimientoDto requestAddMovimientoDto);
+    void checkAccountStatus();
 
 }
