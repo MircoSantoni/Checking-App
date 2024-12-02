@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
+import com.cuentacorrienteapp.cuentacorrienteapp.enums.EstadoCuenta;
 
 import lombok.Builder;
 
@@ -15,6 +16,7 @@ public record ResponseCuentaDto(
     String nombreProveedor,
     String numeroCelular,
     String emailProveedor,
+    EstadoCuenta estadoCuenta,
     String direccionProveedor,
     LocalDateTime fechaBajaLogicaCuenta,
     Set<Movimiento> movimiento

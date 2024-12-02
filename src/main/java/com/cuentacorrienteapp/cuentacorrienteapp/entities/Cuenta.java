@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.cuentacorrienteapp.cuentacorrienteapp.enums.EstadoCuenta;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +33,9 @@ public class Cuenta {
     
     @Column(name="email_proveedor")
     private String emailProveedor;
+
+    @Column(name="estado_cuenta")
+    private EstadoCuenta estadoCuenta;
     
     @Column(name="direccion_proveedor")
     private String direccionProveedor;

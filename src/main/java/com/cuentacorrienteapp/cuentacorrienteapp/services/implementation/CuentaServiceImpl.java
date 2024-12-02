@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cuentacorrienteapp.cuentacorrienteapp.dtos.cuenta.*;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Cuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Movimiento;
+import com.cuentacorrienteapp.cuentacorrienteapp.enums.EstadoCuenta;
 import com.cuentacorrienteapp.cuentacorrienteapp.mappers.CuentaMapper;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.CuentaRepository;
 import com.cuentacorrienteapp.cuentacorrienteapp.repositories.MovimientoRepository;
@@ -39,6 +40,7 @@ public class CuentaServiceImpl implements CuentaService{
                     .nombreProveedor(cuenta.getNombreProveedor())
                     .numeroCelular(cuenta.getNumeroCelular())
                     .emailProveedor(cuenta.getEmailProveedor())
+                    .estadoCuenta(cuenta.getEstadoCuenta())
                     .direccionProveedor(cuenta.getDireccionProveedor())
                     .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
                     .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() :null)
@@ -61,6 +63,7 @@ public class CuentaServiceImpl implements CuentaService{
                     .nombreProveedor(cuenta.getNombreProveedor())
                     .numeroCelular(cuenta.getNumeroCelular()) 
                     .emailProveedor(cuenta.getEmailProveedor())
+                    .estadoCuenta(cuenta.getEstadoCuenta())
                     .direccionProveedor(cuenta.getDireccionProveedor())
                     .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
                     .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() : null)
@@ -80,6 +83,7 @@ public class CuentaServiceImpl implements CuentaService{
 
         Cuenta nuevaCuenta = cuentaMapper.requestCuentaDtoToCuenta(requestCuentaDto);
         nuevaCuenta.setIsValid(true);
+        nuevaCuenta.setEstadoCuenta(EstadoCuenta.CANCELADA);
         cuentaRepository.save(nuevaCuenta);
 
         return cuentaMapper.cuentaToResponseCuentaDto(nuevaCuenta);
@@ -128,20 +132,6 @@ public class CuentaServiceImpl implements CuentaService{
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
     
         return cuentaMapper.cuentaToResponseAddMovimientoDto(cuentaActualizada);
-    }
-
-    
-    public Long calcularNuevoSaldo(Long saldoActual, Movimiento movimiento) {
-        // if (movimiento.getTipoMovimiento() == TipoMovimiento.INGRESO) {
-        //     return saldoActual + movimiento.getMonto();
-        // } else if (movimiento.getTipoMovimiento() == TipoMovimiento.EGRESO) {
-        //     if (saldoActual < movimiento.getMonto()) {
-        //         throw new IllegalStateException("Saldo insuficiente para realizar el movimiento");
-        //     }
-        //     return saldoActual - movimiento.getMonto();
-        // }
-        // throw new IllegalArgumentException("Tipo de movimiento no válido");
-        return null;
     }
 
 
