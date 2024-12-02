@@ -62,6 +62,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                 .<ResponseActiveMovimientoDto>map(movimiento -> ResponseActiveMovimientoDto.builder()
                     .id(movimiento.getId())
                     .importeMovimiento(movimiento.getImporteMovimiento())
+                    .importeImpago(movimiento.getImporteImpago())
                     .medioPago(movimiento.getMedioPago())
                     .comentarioMovimiento(movimiento.getComentarioMovimiento())
                     .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento().atZone(zoneId).toLocalDateTime())
