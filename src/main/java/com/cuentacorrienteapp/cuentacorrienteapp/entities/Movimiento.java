@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.enums.MedioPago;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "movimientos")
@@ -47,12 +48,19 @@ public class Movimiento {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuenta_id", nullable = false)
+    @JsonIgnore
     private Cuenta cuenta;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimiento")
     private Set<Comprobante> comprobantes = new HashSet<>();
 
     private Boolean isValid;
+
+
+    public void addComprobante(Comprobante comprobante) {
+        comprobantes.add(comprobante);
+        comprobante.setMovimiento(this);
+    }
 
     @PrePersist
     public void prePersist() {
