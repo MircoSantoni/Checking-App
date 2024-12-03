@@ -1,4 +1,4 @@
-    package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
+package com.cuentacorrienteapp.cuentacorrienteapp.services.implementation;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -24,31 +24,31 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CuentaServiceImpl implements CuentaService{
+public class CuentaServiceImpl implements CuentaService {
 
     private final MovimientoRepository movimientoRepository;
     private final CuentaRepository cuentaRepository;
     private final CuentaMapper cuentaMapper;
 
     @Override
-    @Transactional( readOnly = true)
+    @Transactional(readOnly = true)
     public Set<ResponseCuentaDto> findAll() {
         checkAccountStatus();
         try {
             return cuentaRepository.findAll().stream()
-                .<ResponseCuentaDto>map(cuenta -> ResponseCuentaDto.builder()
-                    .id(cuenta.getId())
-                    .saldo(cuenta.getSaldo())
-                    .name(cuenta.getName())
-                    .nombreProveedor(cuenta.getNombreProveedor())
-                    .numeroCelular(cuenta.getNumeroCelular())
-                    .emailProveedor(cuenta.getEmailProveedor())
-                    .estadoCuenta(cuenta.getEstadoCuenta())
-                    .direccionProveedor(cuenta.getDireccionProveedor())
-                    .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
-                    .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() :null)
-                    .build())
-                .collect(Collectors.toSet());
+                    .<ResponseCuentaDto>map(cuenta -> ResponseCuentaDto.builder()
+                            .id(cuenta.getId())
+                            .saldo(cuenta.getSaldo())
+                            .name(cuenta.getName())
+                            .nombreProveedor(cuenta.getNombreProveedor())
+                            .numeroCelular(cuenta.getNumeroCelular())
+                            .emailProveedor(cuenta.getEmailProveedor())
+                            .estadoCuenta(cuenta.getEstadoCuenta())
+                            .direccionProveedor(cuenta.getDireccionProveedor())
+                            .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
+                            .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() : null)
+                            .build())
+                    .collect(Collectors.toSet());
         } catch (Exception ex) {
             throw new RuntimeException("Error al buscar las cuentas", ex);
         }
@@ -60,26 +60,26 @@ public class CuentaServiceImpl implements CuentaService{
         checkAccountStatus();
         try {
             return cuentaRepository.findById(id)
-                .map(cuenta -> ResponseCuentaDto.builder()
-                    .id(cuenta.getId())
-                    .saldo(cuenta.getSaldo())
-                    .name(cuenta.getName())
-                    .nombreProveedor(cuenta.getNombreProveedor())
-                    .numeroCelular(cuenta.getNumeroCelular()) 
-                    .emailProveedor(cuenta.getEmailProveedor())
-                    .estadoCuenta(cuenta.getEstadoCuenta())
-                    .direccionProveedor(cuenta.getDireccionProveedor())
-                    .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
-                    .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() : null)
-                    .build())
-                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada con ID: " + id));
+                    .map(cuenta -> ResponseCuentaDto.builder()
+                            .id(cuenta.getId())
+                            .saldo(cuenta.getSaldo())
+                            .name(cuenta.getName())
+                            .nombreProveedor(cuenta.getNombreProveedor())
+                            .numeroCelular(cuenta.getNumeroCelular())
+                            .emailProveedor(cuenta.getEmailProveedor())
+                            .estadoCuenta(cuenta.getEstadoCuenta())
+                            .direccionProveedor(cuenta.getDireccionProveedor())
+                            .fechaBajaLogicaCuenta(cuenta.getFechaBajaLogicaCuenta())
+                            .movimiento(cuenta.getMovimientos() != null ? cuenta.getMovimientos() : null)
+                            .build())
+                    .orElseThrow(() -> new RuntimeException("Cuenta no encontrada con ID: " + id));
         } catch (Exception ex) {
             throw new RuntimeException("Error al buscar la cuenta con ID: " + id, ex);
         }
     }
 
     @Override
-    @Transactional 
+    @Transactional
     public ResponseCuentaDto save(RequestCuentaDto requestCuentaDto) {
         if (requestCuentaDto == null) {
             throw new IllegalArgumentException("El request no puede ser null");
@@ -97,8 +97,8 @@ public class CuentaServiceImpl implements CuentaService{
     @Transactional
     public ResponseUpdateIsValidDto updateIsValid(String id) {
         Cuenta cuenta = cuentaRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
-    
+                .orElseThrow(() -> new EntityNotFoundException("Esta cuenta no existe"));
+
         cuenta.setIsValid(!cuenta.isValid());
 
         if (!cuenta.isValid()) {
@@ -107,7 +107,7 @@ public class CuentaServiceImpl implements CuentaService{
         } else {
             cuenta.setFechaBajaLogicaCuenta(null);
         }
-    
+
         cuentaRepository.save(cuenta);
 
         return cuentaMapper.cuentaToResponseUpdateIsValidDto(cuenta);
@@ -115,63 +115,77 @@ public class CuentaServiceImpl implements CuentaService{
 
     @Transactional
     public ResponseAddMovimientoDto addMovimientoToCuenta(RequestAddMovimientoDto requestAddMovimientoDto) {
-        Cuenta cuenta = cuentaRepository.findById(requestAddMovimientoDto.cuentaId()).orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
-    
+        Cuenta cuenta = cuentaRepository.findById(requestAddMovimientoDto.cuentaId())
+                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+
         if (!cuenta.isValid()) {
             throw new IllegalStateException("No se pueden añadir movimientos a una cuenta inactiva");
         }
-    
-        Movimiento movimiento = movimientoRepository.findById(requestAddMovimientoDto.movimientoId()).orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
-    
+
+        Movimiento movimiento = movimientoRepository.findById(requestAddMovimientoDto.movimientoId())
+                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+
         if (movimiento.getCuenta() != null) {
             throw new IllegalStateException("El movimiento ya está asociado a una cuenta");
         }
-    
+
         movimiento.setIsValid(true);
-    
+
         cuenta.setSaldo(cuenta.getSaldo() + movimiento.getImporteMovimiento());
-        
+
         cuenta.addMovimiento(movimiento);
-    
+
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
-    
+
         return cuentaMapper.cuentaToResponseAddMovimientoDto(cuentaActualizada);
     }
 
     @Override
     @Transactional
     public void checkAccountStatus() {
-    
-        // Obtener todas las cuentas
-        List<Cuenta> cuentasList = cuentaRepository.findAll();
-    
-        // Procesar cada cuenta
-        for (Cuenta cuenta : cuentasList) {
+        List<Cuenta> accounts = cuentaRepository.findAll();
+
+        for (Cuenta cuenta : accounts) {
             boolean isPending = false;
-    
-            // Validar los movimientos de la cuenta
+
+            // Check if the account has any movements
+            if (cuenta.getMovimientos().isEmpty()) {
+                cuenta.setEstadoCuenta(EstadoCuenta.CANCELADA);
+                cuenta.setIsValid(true);
+                cuentaRepository.save(cuenta);
+                continue;
+            }
+
+            // Iterate through movements
             for (Movimiento movimiento : cuenta.getMovimientos()) {
-                double totalComprobantes = movimiento.getComprobantes().stream()
-                    .mapToDouble(Comprobante::getMontoComprobante)
-                    .sum();
-    
+                // Skip if movement has no comprobantes
+                if (movimiento.getComprobantes().isEmpty()) {
+                    isPending = true;
+                    break;
+                }
+
+                // Calculate total amount of comprobantes
+                long totalComprobantes = movimiento.getComprobantes().stream()
+                        .filter(Comprobante::isValid)
+                        .mapToLong(comprobante -> comprobante.getMontoComprobante().longValue())
+                        .sum();
+
+                // Check if total comprobantes match movement amount
                 if (totalComprobantes != movimiento.getImporteMovimiento()) {
-                    cuenta.setEstadoCuenta(EstadoCuenta.PENDIENTE);
                     isPending = true;
                     break;
                 }
             }
-    
-            // Si no se encontró discrepancia, marcamos como CANCELADA
-            if (!isPending) {
+
+            if (isPending) {
+                cuenta.setEstadoCuenta(EstadoCuenta.PENDIENTE);
+            } else {
                 cuenta.setEstadoCuenta(EstadoCuenta.CANCELADA);
                 cuenta.setIsValid(true);
             }
-    
-            // Guardar los cambios en la base de datos
+
             cuentaRepository.save(cuenta);
         }
     }
-
 
 }
