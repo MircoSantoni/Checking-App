@@ -33,10 +33,9 @@ public class ComprobanteController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    // mostrar comprobantes segun numero de comprobante este debe de devolvver una lista pajin
-    @GetMapping("/mostrar-comprobante/{nroComprobante}")
-    public ResponseEntity<Set<ResponseComprobanteDto>> viewNroCompr(@Valid @PathVariable Long nroComprobante) {
-        Set<ResponseComprobanteDto> result = comprobanteService.findByNroComprobante(nroComprobante);
+    @GetMapping("/mostrar-comprobante/{id}")
+    public ResponseEntity<Set<ResponseSetComprobanteDto>> viewNroCompr(@Valid @PathVariable String id) {
+        Set<ResponseSetComprobanteDto> result = comprobanteService.findByMovimientoId(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

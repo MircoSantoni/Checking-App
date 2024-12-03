@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cuentacorrienteapp.cuentacorrienteapp.entities.Comprobante;
 
-public interface ComprobanteRepository extends JpaRepository<Comprobante, String>{
+public interface ComprobanteRepository extends JpaRepository<Comprobante, String> {
     Optional<List<Comprobante>> findByNroComprobante(Long nroComprobante);
-} 
+
+    List<Comprobante> findByMovimientoId(String movimientoId);
+
+}

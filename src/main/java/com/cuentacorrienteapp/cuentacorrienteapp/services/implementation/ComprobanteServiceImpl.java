@@ -40,16 +40,26 @@ public class ComprobanteServiceImpl implements ComprobanteService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<ResponseComprobanteDto> findByNroComprobante(Long nroComprobante) {
-        Optional<List<Comprobante>> comprobantesOpt = comprobanteRepository.findByNroComprobante(nroComprobante);
-        
-        if (comprobantesOpt.isEmpty()) {
-            throw new EntityNotFoundException("No se encontraron comprobantes con el número " + nroComprobante);
+    public Set<ResponseSetComprobanteDto> findByMovimientoId(String id) {
+        try {
+            return comprobanteRepository.findByMovimientoId(id).stream()
+                .map(comprobante -> ResponseSetComprobanteDto.builder()
+                    .id(comprobante.getId())
+                    .tipoComprobante(comprobante.getTipoComprobante())
+                    .descripcion(comprobante.getDescripcion())
+                    .montoComprobante(comprobante.getMontoComprobante())
+                    .nroComprobante(comprobante.getNroComprobante())
+                    .fechaComprobante(comprobante.getFechaComprobante())
+                    .fechaAltaComprobante(comprobante.getFechaAltaComprobante())
+                    .movimientoId(comprobante.getMovimiento() != null ? comprobante.getMovimiento().getId() : null)
+                    .isValid(comprobante.isValid())
+                    .build())
+                .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los comprobantes por ID de movimiento", e);
         }
-        return comprobantesOpt.get().stream()
-            .map(comprobanteMapper::comprobanteToResponseComprobanteDto)
-            .collect(Collectors.toSet());
     }
+
 
     @Override
     @Transactional(readOnly = true)

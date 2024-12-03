@@ -9,7 +9,7 @@ public interface ComprobanteService {
     
     Set<ResponseSetComprobanteDto> findAll();
     ResponseComprobanteDto findById(String id);
-    Set<ResponseComprobanteDto> findByNroComprobante(Long nroComprobante);
+    Set<ResponseSetComprobanteDto> findByMovimientoId(String id);
     ResponseComprobanteDto saveComprobante (RequestComprobanteDto requestComprobanteDto);
     ResponseComprobanteDto updateIsValid(String id);
     ResponseAsignMovimientoDto asignMovimiento(RequestAsignMovimientoDto requestAsignMovimientoDto);
