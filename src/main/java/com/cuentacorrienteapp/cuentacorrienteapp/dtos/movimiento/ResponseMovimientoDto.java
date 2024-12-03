@@ -13,6 +13,7 @@ public record ResponseMovimientoDto(
     String id, 
     Long importeMovimiento,
     Long importePagado,
+    Long numeroMovimiento,
     MedioPago medioPago,
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,

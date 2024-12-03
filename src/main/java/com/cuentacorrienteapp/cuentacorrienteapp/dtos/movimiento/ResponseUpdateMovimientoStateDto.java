@@ -6,5 +6,6 @@ public record ResponseUpdateMovimientoStateDto(
     String id,
     Long importeMovimiento,
     String comentarioMovimiento,
-    LocalDateTime fechaBajaMovimiento
+    LocalDateTime fechaBajaMovimiento,
+    Long numeroMovimiento
     ) { }

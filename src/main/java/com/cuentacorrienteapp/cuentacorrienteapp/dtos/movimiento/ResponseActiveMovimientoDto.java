@@ -12,6 +12,7 @@ public record ResponseActiveMovimientoDto(
     String id, 
     Long importeMovimiento,
     String importePagado,
+    Long numeroMovimiento,
     MedioPago medioPago,
     String comentarioMovimiento,
     LocalDateTime fechaAltaMovimiento,

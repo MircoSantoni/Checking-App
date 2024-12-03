@@ -28,7 +28,16 @@ public class MovimientoServiceImpl implements MovimientoService {
     private final CuentaRepository cuentaRepository;
     private final MovimientoMapper movimientoMapper;
 
-    ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires");
+    ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires"); 
+
+    private Long generateNextNumeroMovimiento() {
+        return movimientoRepository.findTopByOrderByNumeroMovimientoDesc()
+                .map(mov -> {
+                    Long numeroMovimiento = mov.getNumeroMovimiento();
+                    return numeroMovimiento != null ? numeroMovimiento + 1 : 1L;
+                })
+                .orElse(1L);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -39,6 +48,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                             .id(movimiento.getId())
                             .importeMovimiento(movimiento.getImporteMovimiento())
                             .importePagado(movimiento.getImportePagado())
+                            .numeroMovimiento(movimiento.getNumeroMovimiento())
                             .medioPago(movimiento.getMedioPago())
                             .comentarioMovimiento(movimiento.getComentarioMovimiento())
                             .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento().atZone(zoneId).toLocalDateTime())
@@ -62,6 +72,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                             .id(movimiento.getId())
                             .importeMovimiento(movimiento.getImporteMovimiento())
                             .importePagado(movimiento.getImportePagado().toString())
+                            .numeroMovimiento(movimiento.getNumeroMovimiento())
                             .medioPago(movimiento.getMedioPago())
                             .comentarioMovimiento(movimiento.getComentarioMovimiento())
                             .fechaAltaMovimiento(movimiento.getFechaAltaMovimiento().atZone(zoneId).toLocalDateTime())
@@ -92,12 +103,16 @@ public class MovimientoServiceImpl implements MovimientoService {
 
         Movimiento movimiento = movimientoMapper.requestCreateMovimientoDtoToMovimiento(requestCreateMovimientoDto);
 
+        // Generar nuevo ID y número de movimiento
+        Long newNumeroMovimiento = generateNextNumeroMovimiento();
+        
+        movimiento.setNumeroMovimiento(newNumeroMovimiento);
+
         Cuenta cuenta = cuentaRepository.findById(requestCreateMovimientoDto.cuentaId())
                 .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada"));
         movimiento.setCuenta(cuenta);
         movimiento.setIsValid(true);
         movimiento.setImportePagado(0L);
-
         movimiento.setFechaAltaMovimiento(ZonedDateTime.now(zoneId).toLocalDateTime());
 
         Movimiento savedMovimiento = movimientoRepository.save(movimiento);
@@ -112,7 +127,6 @@ public class MovimientoServiceImpl implements MovimientoService {
 
         movimiento.setIsValid(!movimiento.getIsValid());
         if (!movimiento.getIsValid()) {
-            ZoneId zoneId = ZoneId.of("America/Argentina/Buenos_Aires");
             movimiento.setFechaBajaMovimiento(ZonedDateTime.now(zoneId).toLocalDateTime());
         } else {
             movimiento.setFechaBajaMovimiento(null);
@@ -122,69 +136,56 @@ public class MovimientoServiceImpl implements MovimientoService {
         return movimientoMapper.movimientoToResponseUpdateMovimientoStateDto(movimiento);
     }
 
-@Override
-public ResponseImporteDto addImporte(RequestImporteDto requestImporteDto) {
-    // Validate input parameters
-    if (requestImporteDto == null) {
-        throw new IllegalArgumentException("Request cannot be null");
+    @Override
+    public ResponseImporteDto addImporte(RequestImporteDto requestImporteDto) {
+        if (requestImporteDto == null) {
+            throw new IllegalArgumentException("Request cannot be null");
+        }
+
+        Movimiento movimiento = movimientoRepository.findById(requestImporteDto.id())
+                .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
+
+        BigDecimal importePagado = BigDecimal.valueOf(requestImporteDto.importePagado());
+        BigDecimal saldoActual = BigDecimal.valueOf(movimiento.getImportePagado());
+        BigDecimal importeMovimiento = BigDecimal.valueOf(movimiento.getImporteMovimiento());
+
+        if (importePagado.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El importe a pagar debe ser mayor a cero");
+        }
+
+        if (saldoActual.add(importePagado).compareTo(importeMovimiento) > 0) {
+            throw new IllegalArgumentException("El importe a pagar supera el saldo pendiente");
+        }
+
+        movimiento.setImportePagado(saldoActual.add(importePagado).longValue());
+        movimientoRepository.save(movimiento);
+
+        return movimientoMapper.movimientoToResponseImporteDto(movimiento);
     }
 
-    // Find the movement and handle not found scenario
-    Movimiento movimiento = movimientoRepository.findById(requestImporteDto.id())
-            .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
+    @Override
+    public ResponseImporteDto restImporte(RequestImporteDto requestImporteDto) {
+        if (requestImporteDto == null) {
+            throw new IllegalArgumentException("Request cannot be null");
+        }
 
-    // Validate import amount
-    BigDecimal importePagado = BigDecimal.valueOf(requestImporteDto.importePagado());
-    BigDecimal saldoActual = BigDecimal.valueOf(movimiento.getImportePagado());
-    BigDecimal importeMovimiento = BigDecimal.valueOf(movimiento.getImporteMovimiento());
+        Movimiento movimiento = movimientoRepository.findById(requestImporteDto.id())
+                .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
 
-    // Check if the payment amount is positive
-    if (importePagado.compareTo(BigDecimal.ZERO) <= 0) {
-        throw new IllegalArgumentException("El importe a pagar debe ser mayor a cero");
+        BigDecimal importeARestar = BigDecimal.valueOf(requestImporteDto.importePagado());
+        BigDecimal saldoActual = BigDecimal.valueOf(movimiento.getImportePagado());
+
+        if (importeARestar.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El importe a restar debe ser mayor a cero");
+        }
+
+        if (importeARestar.compareTo(saldoActual) > 0) {
+            throw new IllegalArgumentException("El importe a restar supera el saldo actual");
+        }
+
+        movimiento.setImportePagado(saldoActual.subtract(importeARestar).longValue());
+        movimientoRepository.save(movimiento);
+
+        return movimientoMapper.movimientoToResponseImporteDto(movimiento);
     }
-
-    // Check if the total payment doesn't exceed the movement amount
-    if (saldoActual.add(importePagado).compareTo(importeMovimiento) > 0) {
-        throw new IllegalArgumentException("El importe a pagar supera el saldo pendiente");
-    }
-
-    // Update the movement
-    movimiento.setImportePagado(saldoActual.add(importePagado).longValue());
-    movimientoRepository.save(movimiento);
-
-    return movimientoMapper.movimientoToResponseImporteDto(movimiento);
-}
-
-@Override
-public ResponseImporteDto restImporte(RequestImporteDto requestImporteDto) {
-    // Validate input parameters
-    if (requestImporteDto == null) {
-        throw new IllegalArgumentException("Request cannot be null");
-    }
-
-    // Find the movement and handle not found scenario
-    Movimiento movimiento = movimientoRepository.findById(requestImporteDto.id())
-            .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado"));
-
-    // Validate import amount
-    BigDecimal importeARestar = BigDecimal.valueOf(requestImporteDto.importePagado());
-    BigDecimal saldoActual = BigDecimal.valueOf(movimiento.getImportePagado());
-
-    // Check if the amount to subtract is positive
-    if (importeARestar.compareTo(BigDecimal.ZERO) <= 0) {
-        throw new IllegalArgumentException("El importe a restar debe ser mayor a cero");
-    }
-
-    // Check if the amount to subtract doesn't exceed the current paid amount
-    if (importeARestar.compareTo(saldoActual) > 0) {
-        throw new IllegalArgumentException("El importe a restar supera el saldo actual");
-    }
-
-    // Update the movement
-    movimiento.setImportePagado(saldoActual.subtract(importeARestar).longValue());
-    movimientoRepository.save(movimiento);
-
-    return movimientoMapper.movimientoToResponseImporteDto(movimiento);
-}
-
 }
